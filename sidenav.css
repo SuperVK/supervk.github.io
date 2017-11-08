@@ -46,10 +46,23 @@ body {
 .main {
   font-family: 'Dosis', sans-serif;
   font-size: 100px;
-  margin-left: 200px;
+  margin-left: 100px;
   position: absolute;
-  bottom: 540px;
-  left: 750px;
-  width: 200px;
-  height: 100px;
+  bottom: 600px;
+  left: 650px;
+  width: 10px;
+  height: 10px;
 }
+
+.VKimg {
+  position: absolute;
+  left: 965px;
+  bottom: 490px;
+}
+/*img {
+  position: absolute;
+    left: 500px;
+    top: 500px;
+    display: inline;
+    z-index: -1;
+}*/
