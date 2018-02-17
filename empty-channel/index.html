@@ -1,0 +1,67 @@
+
+<html>
+<head>
+  <meta charset="UTF-8">
+	<link rel="icon" href="./favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+	<title>My Channel</title>
+      <link rel="stylesheet" href="style.css">
+</head>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+
+
+
+// BACKROUND MUSIC
+function audioFade() {
+    var backgroundAudio=document.getElementById("bgm");
+	backgroundAudio.volume = 0;
+	$(backgroundAudio).animate({volume: 0.75}, 1500);
+	backgroundAudio.setAttribute("oncanplay", "#");
+}
+
+</script>
+
+<body>
+	<p id="demo">hey</p>
+	<script>
+		var x = document.getElementById("demo");
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			} else {
+				x.innerHTML = "Geolocation is not supported by this browser.";
+			}
+		}
+		function showPosition(position) {
+			x.innerHTML = "Latitude: " + position.coords.latitude +
+			"<br>Longitude: " + position.coords.longitude;
+			//getWeather(location)
+		}
+		getLocation()
+		var xmlhttp = new XMLHttpRequest();
+		// function getUrl(_location) {
+		// 	console.log(location)
+		// 	//return "https://api.darksky.net/forecast/6c4a443552f19f5b03fab5cdc165ab25/" + _location.coords.latitude + "," + _location.coords.longitude;
+		// }
+		//function getWeather(_position) {
+			//var weatherInfo;
+			// xmlhttp.onreadystatechange = function() {
+			// 	if (this.readyState == 4 && this.status == 200) {
+			// 		var weatherInfo = JSON.parse(this.responseText);
+			// 		showWeather(weatherInfo)
+			// 	}
+			// };
+			xmlhttp.open("GET", "https://api.darksky.net/forecast/6c4a443552f19f5b03fab5cdc165ab25/51.6360141,5.293736399999999", true);
+			xmlhttp.send();
+			var weatherInfoJSON = JSON.parse(xmlhttp.responseText)
+			console.log(weatherInfoJSON)
+		//}
+		// function showWeather(weatherState) {
+		// 	console.log(weatherState)
+		// }
+	</script> 
+Hello World!
+</body>
+<audio id="bgm" src="snd/bgm.mp3" loop=1 auto autoplay oncanplay="audioFade()"></audio>
+</html>
