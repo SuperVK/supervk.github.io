@@ -29,7 +29,7 @@ function draw() {
     for(let i = 0; i < obstacles.length; i++){
         if(obstacles[i].x < -obstacles[i].width) {
             obstacles.splice(i, 1)
-            obstacles.push(new Obstacle(Math.floor(Math.random() * 200) - 200))
+            obstacles.push(new Obstacle(Math.floor(Math.random() * 200) - 100))
             player.score++
             continue
         }
