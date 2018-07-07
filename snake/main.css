@@ -1,0 +1,9 @@
+canvas {
+    position: absolute;
+    float: left;
+    top: 10px
+}
+p {
+    position: absolute;
+    left: 42.5%;
+}
