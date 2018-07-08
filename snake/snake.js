@@ -6,8 +6,8 @@ class Snake {
         this.deaths = 0
         this.facing = 'North'
         this.pos = {
-            x: Math.floor(random(0, world.width)),
-            y: Math.floor(random(0, world.height/2))
+            x: Math.floor(random(5, world.width-5)),
+            y: Math.floor(random(5, world.height-5))
         }
         this.parts = [{
                 x: this.pos.x,
@@ -15,21 +15,17 @@ class Snake {
             },
             {
                 x: this.pos.x,
-                y: this.pos.y-1
+                y: this.pos.y+1
             },
             {
                 x: this.pos.x,
-                y: this.pos.y-2
+                y: this.pos.y+2
             }
         ]
         this.world = world
         
     }
     move() {
-        if(keyIsDown(UP_ARROW) && this.facing != 'South') this.facing = 'North'
-        else if(keyIsDown(RIGHT_ARROW) && this.facing != 'West') this.facing = 'East'
-        else if(keyIsDown(DOWN_ARROW) && this.facing != 'North') this.facing = 'South'
-        else if(keyIsDown(LEFT_ARROW )&& this.facing != 'East') this.facing = 'West'
         switch (this.facing) {
             case 'North': {
                 this.shiftParts(0,-1)
@@ -49,6 +45,7 @@ class Snake {
             }
             
         }
+        
         if(this.world.grid[this.pos.x] == undefined) {
             this.die()
             return
@@ -61,10 +58,19 @@ class Snake {
                 this.world.grid[x][y].snake = false
             }
         }
-        for(let part of this.parts) {
+        for(let i = 0; i < this.parts.length; i++) {
+            let part = this.parts[i]
+            if((this.parts[0].x == part.x) && (this.parts[0].y == part.y) && (i != 0)) this.die()
             this.world.grid[part.x][part.y].snake = true
         }
         return
+    }
+    checkDirection() {
+        if(keyIsDown(UP_ARROW) && this.facing != 'South') this.facing = 'North'
+        else if(keyIsDown(RIGHT_ARROW) && this.facing != 'West') this.facing = 'East'
+        else if(keyIsDown(DOWN_ARROW) && this.facing != 'North') this.facing = 'South'
+        else if(keyIsDown(LEFT_ARROW )&& this.facing != 'East') this.facing = 'West'
+        
     }
     shiftParts(xOffset, yOffset) {
         this.pos = {
@@ -87,8 +93,8 @@ class Snake {
         this.score = 0
         this.facing = 'North'
         this.pos = {
-            x: Math.floor(random(0, this.world.width)),
-            y: Math.floor(random(0, this.world.height))
+            x: Math.floor(random(5, this.world.width-5)),
+            y: Math.floor(random(5, this.world.height-5))
         }
         this.parts = [{
                 x: this.pos.x,
@@ -96,11 +102,11 @@ class Snake {
             },
             {
                 x: this.pos.x,
-                y: this.pos.y-1
+                y: this.pos.y+1
             },
             {
                 x: this.pos.x,
-                y: this.pos.y-1
+                y: this.pos.y+2
             }
         ]
         for(let x in this.world.grid) {

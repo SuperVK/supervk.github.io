@@ -12,9 +12,12 @@ class World {
         }
         this.grid[this.apple.x][this.apple.y].apple = true
     }
-    draw() {
+    process() {
         
         this.snake.move()
+        
+    }
+    draw() {
         stroke(0)
         
         for(let x in this.grid) {
