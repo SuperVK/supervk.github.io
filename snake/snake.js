@@ -90,7 +90,8 @@ class Snake {
         this.deaths++
         this.length = 3
         this.score = 0
-        this.facing = 'North'
+        this.facing = 'North';
+        this.plannedFacing = 'North';
         this.pos = {
             x: Math.floor(random(5, this.game.width-5)),
             y: Math.floor(random(5, this.game.height-5))
