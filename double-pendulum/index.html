@@ -7,10 +7,51 @@
         double pendulum
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
 </head>
-<body>
+<body onload="ready()">
     <canvas id="canvas" width="750" height="750"></canvas>
+    <div class="settings">
+        <div id="info">
+            >Extreme values might crash your browser. (Nothing is capped in any way) <br>>Negative values do work for physics based things, and are very fun to use. <br>>To reset the settings, press ctrl+f5<br>>Every frame the position of the tip of the pendulum gets saved, and a line gets drawn through it. So if you want the trail to last 5 seconds, you gotta do 5*60 frames for the trail length
+        </div> <br>
+        <div id="global">
+            <b>Global</b> <Br>
+            <span>Gravity:</span>
+            <input type="number" value="0.5" step="0.01" id="gravity"> <br>
+            <span>Trail:</span>
+            <input type="checkbox" checked id="trailEl"> <br>
+            <span>Trail length: </span>
+            <input type="number" min="0" value="1000" id="trailLengthEl"> <br>
+            <span>FPS:</span>
+            <input type="number" min="0" value="60" id="FPS"> <br>
+            <span>Pause:</span>
+            <input type="checkbox" id="pauseEl"> <br>
+        </div> <br>
+        <div id="pend1">
+            <b>Pendulum 1</b> <br>
+            <span>length: </span> 
+            <input type="number" value="100" step="1" id="pend1length"> <br>
+            <span>Massa: </span> 
+            <input type="number" value="50" step="1" id="pend1massa"> <br>
+            <span>Angle (radians):</span>
+            <input type="number" value="3" step="0.001" id="pend1angle"> <br>
+            <span>Velocity:</span>
+            <input type="number" value="0" step="0.001" id="pend1vel"> <br>
+        </div> <br>
+        <div id="pend2">
+            <b>Pendulum 2 (doesn't work yet)</b> <br>
+            <span>length: </span> 
+            <input type="number" value="100" step="1" id="pend2length"> <br>
+            <span>Massa: </span> 
+            <input type="number" value="50" step="1" id="pend2massa"> <br>
+            <span>Angle (radians):</span>
+            <input type="number" value="3" step="0.001" id="pend2angle"> <br>
+            <span>Velocity:</span>
+            <input type="number" value="0" step="0.001" id="pend2vel"> <br>
+        </div>
+
+    </div>
 </body>
 </html>
