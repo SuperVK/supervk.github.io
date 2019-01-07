@@ -15,8 +15,8 @@ let pend1 = {
     massa: 50,
     length: 100,
     angle: Math.PI*0.9,
-    vel: 0
-
+    vel: 0,
+    velCap: 1
 
 }
 
@@ -24,7 +24,8 @@ let pend2 = {
     massa: 50,
     length: 100,
     angle: Math.PI,
-    vel: 0
+    vel: 0,
+    velCap: 1
 }
 
 function ready() {
@@ -50,7 +51,7 @@ function ready() {
     pend1.length = Number(pend1length.value)
     pend1length.oninput = () => pend1.length = Number(pend1length.value) || 1
     
-    pend1.length = Number(pend1massa.value)
+    pend1.massa = Number(pend1massa.value)
     pend1massa.oninput = () => pend1.massa = Number(pend1massa.value) || 1
 
     pend1.angle = Number(pend1angle.value)
@@ -58,6 +59,19 @@ function ready() {
 
     pend1.vel = Number(pend1vel.value)
     pend1vel.oninput = () => pend1.vel = Number(pend1vel.value) || 0
+
+    //pend2
+    pend2.length = Number(pend2length.value)
+    pend2length.oninput = () => pend2.length = Number(pend2length.value) != 0 ? Number(pend2length.value) : 1
+    
+    pend2.massa = Number(pend2massa.value)
+    pend2massa.oninput = () => pend2.massa = Number(pend2massa.value) != 0 ? Number(pend2massa.value) : 1
+
+    pend2.angle = Number(pend2angle.value)
+    pend2angle.oninput = () => pend2.angle = Number(pend2angle.value) || 0
+
+    pend2.vel = Number(pend2vel.value)
+    pend2vel.oninput = () => pend2.vel = Number(pend2vel.value) || 0
 
     frame()
 }
@@ -86,6 +100,15 @@ function frame() {
         num4 = pend2.vel*pend2.vel*pend2.length*pend2.massa*Math.cos(pend1.angle-pend2.angle);
         den = pend2.length * (2*pend1.massa+pend2.massa-pend2.massa*Math.cos(2*pend1.angle-2*pend2.angle));
         pend2.vel += (num1*(num2+num3+num4)) / den;
+
+        /*
+        @ TODO
+        
+        */
+        // if (pend1.vel > pend1.velCap) pend1.vel = pend1.velCap
+        // if (pend1.vel < -pend1.velCap) pend1.vel = -pend1.velCap
+        // if (pend2.vel > pend2.velCap) pend2.vel = pend2.velCap
+        // if (pend2.vel < -pend2.velCap) pend2.vel = -pend2.velCap
 
         pend1.angle += pend1.vel
         pend2.angle += pend2.vel
