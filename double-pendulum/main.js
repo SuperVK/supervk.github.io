@@ -101,32 +101,27 @@ function frame() {
         den = pend2.length * (2*pend1.massa+pend2.massa-pend2.massa*Math.cos(2*pend1.angle-2*pend2.angle));
         pend2.vel += (num1*(num2+num3+num4)) / den;
 
-        /*
-        @ TODO
-        
-        */
-        // if (pend1.vel > pend1.velCap) pend1.vel = pend1.velCap
-        // if (pend1.vel < -pend1.velCap) pend1.vel = -pend1.velCap
-        // if (pend2.vel > pend2.velCap) pend2.vel = pend2.velCap
-        // if (pend2.vel < -pend2.velCap) pend2.vel = -pend2.velCap
-
         pend1.angle += pend1.vel
         pend2.angle += pend2.vel
+
+        //if the pendulum went more than one round around, warp it back (has no real effect on any visuals, only on the numbers)
+        while (pend1.angle < -Math.PI) pend1.angle += Math.PI*2
+        while (pend1.angle >= Math.PI) pend1.angle -= Math.PI*2
+
+        while (pend2.angle < -Math.PI) pend2.angle += Math.PI*2
+        while (pend2.angle >= Math.PI) pend2.angle -= Math.PI*2
+
 
         pend1vel.value = Math.round(pend1.vel*1000)/1000
         pend2vel.value = Math.round(pend2.vel*1000)/1000
 
         pend1angle.value = Math.round(pend1.angle*1000)/1000
         pend2angle.value = Math.round(pend2.angle*1000)/1000  
-
-        
     }
     
     //pend1
     x1 = pend1.length*Math.sin(pend1.angle)
     y1 = pend1.length*Math.cos(pend1.angle)
-    
-    
 
     //pend2
 
