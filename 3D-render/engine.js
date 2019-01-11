@@ -82,6 +82,14 @@ class Engine3D {
     }
     move() {
         
+        let directions = {}
+
+        if(keysDown['87']) directions['forwards'] = true
+        if(keysDown['83']) directions['backwards'] = true
+        if(keysDown['65']) directions['left'] = true
+        if(keysDown['68']) directions['right'] = true
+        if(keysDown['38']) directions['up'] = true
+        if(keysDown['40']) directions['down'] = true
        
         let x;
         let y;
@@ -91,7 +99,6 @@ class Engine3D {
             } else {
                 x = mouseDown[1]-this.mouse.x
                 y = mouseDown[2]-this.mouse.y
-                console.log(x,y)
                
             }
         } else {
@@ -106,40 +113,13 @@ class Engine3D {
                     if(y > 0) this.objects[i].vertices[j] = this.rotateVertex(y*0.0001, 'y', this.objects[i].vertices[j])
                 }
                 
-                for(let key in keysDown) {
-                    switch(key) {
-                        //w
-                        case '87': {
-                            this.objects[i].vertices[j].y -= 10
-                            break;
-                        }
-                        //s
-                        case '83': {
-                            this.objects[i].vertices[j].y += 10
-                            break;
-                        }
-                        //a
-                        case '65': {
-                            this.objects[i].vertices[j].x += 10
-                            break;
-                        }
-                        //d
-                        case '68': {
-                            this.objects[i].vertices[j].x -= 10
-                            break;
-                        }
-                        //arrowUp
-                        case '38': {
-                            this.objects[i].vertices[j] = engine.rotateVertex(0.008, 'x', this.objects[i].vertices[j])
-                            break;
-                        }
-                        //arrowDown
-                        case '40': {
-                            this.objects[i].vertices[j] = engine.rotateVertex(-0.008, 'x', this.objects[i].vertices[j])
-                            break;
-                        }
-                    }
-                }
+                if(keysDown['87']) this.objects[i].vertices[j].y -= 10
+                if(keysDown['83']) this.objects[i].vertices[j].y += 10
+                if(keysDown['65']) this.objects[i].vertices[j].x += 10
+                if(keysDown['68']) this.objects[i].vertices[j].x -= 10
+                if(keysDown['38']) this.objects[i].vertices[j] = engine.rotateVertex(0.008, 'x', this.objects[i].vertices[j])
+                if(keysDown['40']) this.objects[i].vertices[j] = engine.rotateVertex(-0.008, 'x', this.objects[i].vertices[j])
+                
             }
         
             

@@ -53,8 +53,11 @@ document.onkeypress = function(event) {
     }
 }
 
-window.onkeydown = function(e) {keysDown[e.keyCode] = true}
-window.onkeyup = function(e) {keysDown[e.keyCode] = false}
+document.addEventListener("keydown", (e) => keysDown[e.keyCode] = true)
+document.addEventListener("keyup", (e) => keysDown[e.keyCode] = false
+)
+
+
 window.onmousedown = function(e) {
     mouseDown = [true, e.clientX, e.clientY]
 }

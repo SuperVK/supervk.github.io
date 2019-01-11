@@ -104,6 +104,11 @@ function frame() {
         pend1.angle += pend1.vel
         pend2.angle += pend2.vel
 
+        if (pend1.vel > pend1.velCap) pend1.vel = pend1.velCap
+        if (pend1.vel < -pend1.velCap) pend1.vel = -pend1.velCap
+        if (pend2.vel > pend2.velCap) pend2.vel = pend2.velCap
+        if (pend2.vel < -pend2.velCap) pend2.vel = -pend2.velCap
+
         //if the pendulum went more than one round around, warp it back (has no real effect on any visuals, only on the numbers)
         while (pend1.angle < -Math.PI) pend1.angle += Math.PI*2
         while (pend1.angle >= Math.PI) pend1.angle -= Math.PI*2
