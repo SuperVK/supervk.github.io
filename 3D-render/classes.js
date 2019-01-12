@@ -82,6 +82,7 @@ class Camera {
         // }
         let points = []
         for(let vertex of vertices) {
+            if(vertex.y < 0) continue
             points.push(this.project(vertex))
         }
         return points

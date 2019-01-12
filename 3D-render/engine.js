@@ -35,7 +35,7 @@ class Engine3D {
 
                         ctx.beginPath()
                         ctx.lineWidth = 5
-                        ctx.moveTo(points[0].x, points[0].y)
+                        if(points[0] != undefined) ctx.moveTo(points[0].x, points[0].y)
                         for(let i in points) {
                             if(i == 0) continue
                             ctx.lineTo(points[i].x, points[i].y)
@@ -104,6 +104,9 @@ class Engine3D {
         difference.rotZ = mousemoves.x*0.001
         mousemoves.x = 0
         mousemoves.y = 0
+
+        //lock it when looking too much up
+        if(this.camera.rot.x - difference.rotX < -Math.PI/2) difference.rotX = 0
 
         // if(keysDown['38']) difference.rotX += 0.008 //ARROWUP
         // if(keysDown['40']) difference.rotX -= 0.008 //ARROWDOWN
