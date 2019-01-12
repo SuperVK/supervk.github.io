@@ -69,17 +69,17 @@ class Camera {
         this.fov = fov
         
     }
+    //takes either an object or a plane
     project(vertices) {
         if(vertices.length == undefined) {
-            
-            return new Vertex2(((this.fov+this.y)*(vertices.x+this.x))/(vertices.y+this.y), ((this.fov+this.y)*(vertices.z+this.z))/(vertices.y+this.y))
+            return new Vertex2((this.fov*vertices.x)/vertices.y, (this.fov*vertices.z)/vertices.y)
             //return new Vertex2(this.distance/vertices.y*vertices.x, this.distance/vertices.y*vertices.z)
         }
-        if(log) {
-            console.log(vertices)
-            //console.log((this.distance*vertices.x)/vertices.y, (this.distance*vertices.z)/vertices.y)
-            log = false
-        }
+        // if(log) {
+        //     console.log(vertices)
+        //     //console.log((this.distance*vertices.x)/vertices.y, (this.distance*vertices.z)/vertices.y)
+        //     log = false
+        // }
         let points = []
         for(let vertex of vertices) {
             points.push(this.project(vertex))

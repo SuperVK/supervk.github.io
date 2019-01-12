@@ -34,6 +34,7 @@ class Engine3D {
                         let points = this.camera.project(face)
 
                         ctx.beginPath()
+                        ctx.lineWidth = 5
                         ctx.moveTo(points[0].x, points[0].y)
                         for(let i in points) {
                             if(i == 0) continue
@@ -82,49 +83,72 @@ class Engine3D {
     }
     move() {
         
-        let directions = {}
-
-        if(keysDown['87']) directions['forwards'] = true
-        if(keysDown['83']) directions['backwards'] = true
-        if(keysDown['65']) directions['left'] = true
-        if(keysDown['68']) directions['right'] = true
-        if(keysDown['38']) directions['up'] = true
-        if(keysDown['40']) directions['down'] = true
-       
-        let x;
-        let y;
-        if(mouseDown[0]) {
-            if(!this.mouse.wasDown) {
-                this.mouse.wasDown = true
-            } else {
-                x = mouseDown[1]-this.mouse.x
-                y = mouseDown[2]-this.mouse.y
-               
-            }
-        } else {
-            this.mouse.wasDown = false
+        //the difference with the previous every vertices has to move in
+        let difference = {
+            x: 0,
+            y: 0,
+            z: 0,
+            rotX: 0,
+            rotY: 0,
+            rotZ: 0
         }
-        this.mouse.x = mouseDown[1]
-        this.mouse.y = mouseDown[2]
+
+        if(keysDown['87']) difference.y -= SPEED //W
+        if(keysDown['83']) difference.y += SPEED //S
+        if(keysDown['65']) difference.x += SPEED //A
+        if(keysDown['68']) difference.x -= SPEED //S
+        if(keysDown['32']) difference.z += SPEED //SPACE
+        if(keysDown['16']) difference.z -= SPEED //SHIFT
+
+        difference.rotX = mousemoves.y*-0.001
+        difference.rotZ = mousemoves.x*0.001
+        mousemoves.x = 0
+        mousemoves.y = 0
+
+        // if(keysDown['38']) difference.rotX += 0.008 //ARROWUP
+        // if(keysDown['40']) difference.rotX -= 0.008 //ARROWDOWN
+        // if(keysDown['37']) difference.rotZ -= 0.008 //ARROWRIGHT
+        // if(keysDown['39']) difference.rotZ += 0.008 //ARROWLEFT
+
+        
+
         for(let i in this.objects) {
             for(let j in this.objects[i].vertices) {
-                if(mouseDown[0]) {
-                    if(x > 0) this.objects[i].vertices[j] = this.rotateVertex(x*0.0001, 'x', this.objects[i].vertices[j])
-                    if(y > 0) this.objects[i].vertices[j] = this.rotateVertex(y*0.0001, 'y', this.objects[i].vertices[j])
-                }
+ 
+                //rotate everything back so the forward isn't related to the rotation of the camera, but instead the global world
+                this.rotateVertex(this.camera.rot.x, 'x', this.objects[i].vertices[j])
+                this.rotateVertex(this.camera.rot.y, 'y', this.objects[i].vertices[j])
                 
-                if(keysDown['87']) this.objects[i].vertices[j].y -= 10
-                if(keysDown['83']) this.objects[i].vertices[j].y += 10
-                if(keysDown['65']) this.objects[i].vertices[j].x += 10
-                if(keysDown['68']) this.objects[i].vertices[j].x -= 10
-                if(keysDown['38']) this.objects[i].vertices[j] = engine.rotateVertex(0.008, 'x', this.objects[i].vertices[j])
-                if(keysDown['40']) this.objects[i].vertices[j] = engine.rotateVertex(-0.008, 'x', this.objects[i].vertices[j])
+                this.objects[i].vertices[j].y += difference.y
+                this.objects[i].vertices[j].x += difference.x
+                this.objects[i].vertices[j].z += difference.z
+            
+                //rotate everything back again to the original state
+                this.rotateVertex(-this.camera.rot.y, 'y', this.objects[i].vertices[j])
+                this.rotateVertex(-this.camera.rot.x, 'x', this.objects[i].vertices[j])
+
+                //take back to global so it's global and doesn't fuck up anything
+                //https://gamedev.stackexchange.com/questions/136174/im-rotating-an-object-on-two-axes-so-why-does-it-keep-twisting-around-the-thir
+                this.rotateVertex(this.camera.rot.x, 'x', this.objects[i].vertices[j])
+                this.rotateVertex(difference.rotZ, 'z', this.objects[i].vertices[j])
+                this.rotateVertex(-this.camera.rot.x, 'x', this.objects[i].vertices[j])
+
+                this.rotateVertex(difference.rotY, 'y', this.objects[i].vertices[j])
+                this.rotateVertex(difference.rotX, 'x', this.objects[i].vertices[j])
+                
+                
+        
+
                 
             }
         
             
         
         }
+        this.camera.x -= difference.x
+        this.camera.y -= difference.y 
+        this.camera.rot.x -= difference.rotX
+        this.camera.rot.z -= difference.rotZ
     }
     rotateVertex(degree, axis, vertex, center) {
         if(center == undefined) center = new Vertex3(0,0,0)

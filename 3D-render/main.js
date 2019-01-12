@@ -1,3 +1,4 @@
+const SPEED = 25
 let engine;
 let canvas;
 let ctx;
@@ -6,7 +7,11 @@ let log = false
 let modes = ['orthographic', 'perspective']
 let modeIndex = 0
 let keysDown = {}
-let mouseDown = []
+let mousemoves = {
+    x: 0,
+    y: 0
+}
+
 document.onreadystatechange = function() {
     if(document.readyState == 'loading' || document.readyState == 'interactive') return
     canvas = document.getElementById('canvas')
@@ -15,52 +20,69 @@ document.onreadystatechange = function() {
     ctx = canvas.getContext('2d')
     ctx.translate(canvas.width/2, canvas.height/2)
     engine = new Engine3D()
+    
+    canvas.addEventListener('click', function(e) {
+        canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock;
 
-    setInterval(() => {
-        framecount++
-        if(!engine.isPaused) {
-            // engine.objects[0].rotate(0.008, 'y')
-            // engine.objects[0].rotate(0.008, 'z')
-            // engine.objects[0].rotate(0.008, 'x')
-            // engine.objects[1].rotate(-0.008, 'y')
-            // engine.objects[1].rotate(-0.008, 'z')
-            // engine.objects[1].rotate(-0.008, 'x')
-            engine.wipe()
-            engine.render()
-            engine.move()
+        canvas.requestPointerLock()
+    })
+
+    document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
+
+    window.addEventListener("keydown", (e) => keysDown[e.keyCode] = true)
+    window.addEventListener("keyup", (e) => keysDown[e.keyCode] = false)
+
+    document.addEventListener('pointerlockchange', lockChangeAlert, false);
+    document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
+
+    
+    document.onkeypress = function(event) {
+        switch(event.key.toUpperCase()) {
+            case 'ESCAPE': {
+                if(engine.isPaused) engine.isPaused = false
+                else engine.isPaused = true
+                break
+            }
+            case 'L': {
+                log = true
+                break
+            }
+            case 'M': {
+                modeIndex++
+                if(modeIndex == modes.length) modeIndex = 0
+                engine.mode = modes[modeIndex]
+                break
+            }
         }
-        
-    }, 1000/30)
+    }
+
+    setInterval(frame, 1000/30)
 }
 
-document.onkeypress = function(event) {
-    switch(event.key.toUpperCase()) {
-        case ' ': {
-            if(engine.isPaused) engine.isPaused = false
-            else engine.isPaused = true
-            break
-        }
-        case 'L': {
-            log = true
-            break
-        }
-        case 'M': {
-            modeIndex++
-            if(modeIndex == modes.length) modeIndex = 0
-            engine.mode = modes[modeIndex]
-            break
-        }
+function frame() {
+    framecount++
+    if(!engine.isPaused) {
+        engine.wipe()
+        engine.render()
+        engine.move()
     }
 }
 
-document.addEventListener("keydown", (e) => keysDown[e.keyCode] = true)
-document.addEventListener("keyup", (e) => keysDown[e.keyCode] = false
-)
+function updatePosition(e) {
+    mousemoves.x += e.movementX
+    mousemoves.y += e.movementY
+}
+
+function lockChangeAlert() {
+    if (document.pointerLockElement === canvas || document.mozPointerLockElement === canvas) {
+        console.log('The pointer lock status is now locked');
+        document.addEventListener("mousemove", updatePosition, false);
+    } else {
+        console.log('The pointer lock status is now unlocked');  
+        document.removeEventListener("mousemove", updatePosition, false);
+    }
+}
 
 
-window.onmousedown = function(e) {
-    mouseDown = [true, e.clientX, e.clientY]
-}
-window.onmouseup = function(e) {
-    mouseDown = [false, e.clientX, e.clientY]
-}
+
+
