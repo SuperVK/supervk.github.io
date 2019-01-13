@@ -19,6 +19,7 @@ document.onreadystatechange = function() {
     canvas.width = window.innerWidth-20
     ctx = canvas.getContext('2d')
     ctx.translate(canvas.width/2, canvas.height/2)
+    ctx.miterLimit = 1
     engine = new Engine3D()
     
     canvas.addEventListener('click', function(e) {
