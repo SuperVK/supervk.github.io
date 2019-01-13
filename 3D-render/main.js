@@ -36,26 +36,6 @@ document.onreadystatechange = function() {
     document.addEventListener('pointerlockchange', lockChangeAlert, false);
     document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
 
-    
-    document.onkeypress = function(event) {
-        switch(event.key.toUpperCase()) {
-            case 'ESCAPE': {
-                if(engine.isPaused) engine.isPaused = false
-                else engine.isPaused = true
-                break
-            }
-            case 'L': {
-                log = true
-                break
-            }
-            case 'M': {
-                modeIndex++
-                if(modeIndex == modes.length) modeIndex = 0
-                engine.mode = modes[modeIndex]
-                break
-            }
-        }
-    }
 
     setInterval(frame, 1000/30)
 }
