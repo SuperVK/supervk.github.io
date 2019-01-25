@@ -21,81 +21,43 @@ class Engine3D {
         ctx.fill()
     }
     render(mode) {
-        //if mode is passed in, use that, otherwise use the default
-        if(!mode) mode = this.mode
+        //sort on distance from camera, so the render order is correct
+        let objects = this.objects
+        objects.sort((a,b) => {
+            let verA = engine._getAverageVertex(a.vertices)
+            let verB = engine._getAverageVertex(b.vertices)
+            //pythagorras
+            return Math.sqrt(Math.pow(verB.y,2)+Math.pow(verB.x,2)+Math.pow(verB.z, 2))-Math.sqrt(Math.pow(verA.y,2)+Math.pow(verA.x,2)+Math.pow(verA.z,2))
+        })
 
-        switch(mode) {
-            case 'orthographic': {
-                //sort on distance from camera, so the render order is correct
-                let objects = this.objects
-                objects.sort((a,b) => {
-                    let verA = engine._getAverageVertex(a.vertices)
-                    let verB = engine._getAverageVertex(b.vertices)
-                    //pythagorras
-                    return Math.sqrt(Math.pow(verB.y,2)+Math.pow(verB.x,2))-Math.sqrt(Math.pow(verA.y,2)+Math.pow(verA.x,2))
-                })
+        for(let object of this.objects) {
 
-                for(let object of this.objects) {
+            let faces = object.faces
+            faces.sort((a,b) => {
+                let verA = engine._getAverageVertex(a.points)
+                let verB = engine._getAverageVertex(b.points)
+                //pietagogras
+                return Math.sqrt(Math.pow(verB.y,2)+Math.pow(verB.x,2))-Math.sqrt(Math.pow(verA.y,2)+Math.pow(verA.x,2))
+            })
 
-                    let faces = object.faces
-                    faces.sort((a,b) => {
-                        let verA = engine._getAverageVertex(a.points)
-                        let verB = engine._getAverageVertex(b.points)
-                        //pietagogras
-                        return Math.sqrt(Math.pow(verB.y,2)+Math.pow(verB.x,2))-Math.sqrt(Math.pow(verA.y,2)+Math.pow(verA.x,2))
-                    })
+            for(let face of faces) {
+                let points = this.camera.project(face.points)
 
-                    for(let face of faces) {
-                        let points = this.camera.project(face.points)
-
-                        ctx.beginPath()
-                        ctx.lineWidth = 5
-                        if(points[0] != undefined) ctx.moveTo(points[0].x, points[0].y)
-                        for(let i in points) {
-                            if(i == 0) continue
-                            ctx.lineTo(points[i].x, points[i].y)
-                            //console.log(points[i].x)
-                        }
-                        ctx.closePath()
-                        ctx.fillStyle = face.color
-                        ctx.fill()
-                    }
+                ctx.beginPath()
+                ctx.lineWidth = 5
+                if(points[0] != undefined) ctx.moveTo(points[0].x, points[0].y)
+                for(let i in points) {
+                    if(i == 0) continue
+                    ctx.lineTo(points[i].x, points[i].y)
+                    //console.log(points[i].x)
                 }
-                break;
-            }
-            case 'perspective': {
-                
-                for(let object of this.objects) {
-                    for(let face of object.faces) {
-                        let points = this.project(face)
-
-                        ctx.beginPath()
-                        ctx.moveTo(points[0].x, points[0].y)
-                        for(let i in points) {
-                            if(i == 0) continue
-                            ctx.lineTo(points[i].x, points[i].y)
-                        }
-                        ctx.closePath()
-                        ctx.stroke()
-                    }
-                }
-                break;
-            }
-            case 'vertices': {
-                
-                for(let face of this.cube.faces) {
-                    let points = this.project(face)
-                    ctx.beginPath()
-                    ctx.strokeRect(points[0].x, points[0].y, 1, 1)
-                    for(let i in points) {
-                        if(i == 0) continue
-                        ctx.strokeRect(points[i].x, points[i].y, 1, 1)
-                    }
-                    ctx.stroke()
-                }
-                break
+                ctx.closePath()
+                ctx.fillStyle = face.color
+                ctx.fill()
+                ctx.stroke()
             }
         }
+          
     }
     move() {
         

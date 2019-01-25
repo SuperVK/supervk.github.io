@@ -39,19 +39,19 @@ class Cube {
             },
             {
                 points: [this.vertices[5], this.vertices[4], this.vertices[6], this.vertices[7]],
-                color: '#0051BA'
-            },
-            {
-                points: [this.vertices[4], this.vertices[6], this.vertices[2], this.vertices[0]],
                 color: '#FF5800'
             },
             {
-                points: [this.vertices[2], this.vertices[3], this.vertices[7], this.vertices[6]],
+                points: [this.vertices[4], this.vertices[6], this.vertices[2], this.vertices[0]],
                 color: '#FFD500'
             },
             {
-                points: [this.vertices[0], this.vertices[4], this.vertices[5], this.vertices[1]],
+                points: [this.vertices[2], this.vertices[3], this.vertices[7], this.vertices[6]],
                 color: '#FFFFFF'
+            },
+            {
+                points: [this.vertices[0], this.vertices[4], this.vertices[5], this.vertices[1]],
+                color: '#0051BA'
             }
         ]
     }
@@ -62,6 +62,8 @@ class Cube {
         }
     }
 }
+
+let stop = false
 
 class Camera {
     constructor(fov) {
@@ -78,20 +80,66 @@ class Camera {
         this.fov = fov
         
     }
-    //takes either an object or a plane
+    //takes either an plane or a vertex
     project(vertices) {
+        if(stop) return
         if(vertices.length == undefined) {
-            return new Vertex2((this.fov*vertices.x)/vertices.y, (this.fov*vertices.z)/vertices.y)
-            //return new Vertex2(this.distance/vertices.y*vertices.x, this.distance/vertices.y*vertices.z)
+            let vertex = vertices
+            let r = this.fov/vertex.y
+            if(r < 0) r = 1e9
+            return new Vertex2(vertex.x*r, vertex.z*r)
         }
-        // if(log) {
-        //     console.log(vertices)
-        //     //console.log((this.distance*vertices.x)/vertices.y, (this.distance*vertices.z)/vertices.y)
-        //     log = false
-        // }
+
         let points = []
-        for(let vertex of vertices) {
-            if(vertex.y < 0) continue
+
+        //dealing with vertex of a plane being behind the camera, and creating fictive points that create the illusion of everything working just like real life
+        let visiblePoints = []
+        let invisPoints = 0
+        for(let i in vertices) {
+            let vertex = vertices[i]
+            if(vertex.y < 0) {
+                invisPoints++
+                if(visiblePoints[Number(i)-1] != 'None' && visiblePoints[Number(i)-2] != 'None') visiblePoints.push('None')
+            } else {
+                visiblePoints.push(vertex)
+            }
+        }
+        
+        if(visiblePoints.includes('None')) {
+            if(visiblePoints.filter((v) => v == 'None').length == 1) {
+                let invisVertex = vertices.find((v) => v.y < 0)
+                let invisVertexIndex = vertices.findIndex((v) => v.y < 0)
+                let previousVertex = invisVertexIndex-1 < 0 ? visiblePoints[visiblePoints.length-1] : visiblePoints[invisVertexIndex-1]
+                let nextVertex = invisVertexIndex+1 == visiblePoints.length ? visiblePoints[0] : visiblePoints[invisVertexIndex+1]
+
+                let x1 = ((previousVertex.y+Math.abs(invisVertex.y))*(previousVertex.x))/Math.abs(invisVertex.y)
+                let z1 = ((previousVertex.y+Math.abs(invisVertex.y))*(previousVertex.z))/Math.abs(invisVertex.y)
+
+                let fakeVertex1 = Vertex3(x1,0,z1)
+
+                let x2 = ((nextVertex.y+Math.abs(invisVertex.y))*(nextVertex.x))/Math.abs(invisVertex.y)
+                let z2 = ((nextVertex.y+Math.abs(invisVertex.y))*(nextVertex.z))/Math.abs(invisVertex.y)
+
+
+
+                let fakeVertex2 = Vertex3(x2,0,z2)
+
+                if(fakeVertex2 == undefined) console.log(x2)
+
+                visiblePoints[invisVertexIndex] = fakeVertex1 
+                visiblePoints.splice(invisVertexIndex, 0, fakeVertex2)
+            } else {
+
+            }
+        }
+
+      //  console.log(visiblePoints)
+
+        for(let vertex of visiblePoints) {
+            if(vertex == undefined) {
+                console.log(visiblePoints)
+                stop = true
+            }
             points.push(this.project(vertex))
         }
         return points
