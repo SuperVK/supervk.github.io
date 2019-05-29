@@ -5,7 +5,7 @@
     <title>Minesweeper</title>
     <script src="minesweeper.js"></script>
     <style>
-    p, span {
+    .info {
         position: absolute;
         left: 800px;
         top: 10px;
@@ -14,10 +14,12 @@
 </head>
 <body>
     <canvas id="canvas" width="700" height="700"></canvas>
-    <span>Bombs left to mark: -1</span><br><br>
-    <span>Timer: -1</span> <br><br>
+    <div class="info">
+        <span>Bombs left to mark: <span id="bombs">-1</span></span><br>
+        <span>Timer: <span id="timer">-1</span></span> <br>
 
-    <button>Restart</button> <br><br>
+        <button>Restart</button> <br>
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
