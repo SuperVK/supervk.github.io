@@ -10,7 +10,7 @@ class Minesweeper {
         //will be a 2d array
         this.grid = []
         this.bombs = []
-        this.genGrid()
+        this.resetGrid()
 
 
         //events
@@ -23,7 +23,11 @@ class Minesweeper {
                 let y = Math.floor(event.clientY/this.spacingY)
                 this.uncover(x, y)
             } else if(event.buttons == 2) { //right click
-
+                let x = Math.floor(event.clientX/this.spacingX)
+                let y = Math.floor(event.clientY/this.spacingY)
+                if(x >= this.width-1) return
+                if(y >= this.height-1) return
+                this.grid[x][y].marked = true
             }
             this.update()
         })
@@ -33,19 +37,18 @@ class Minesweeper {
         if(this.grid[x][y].discovered) return
         this.grid[x][y].discovered = true
         if(this.grid[x][y].number == 0) {
-            
-            if(x != 0) this.uncover(x-1, y)
-            if(x != this.width-1) this.uncover(x+1, y)
-            if(y != this.height-1) this.uncover(x, y+1)
-            if(y != 0) this.uncover(x, y-1)
-            if(y != this.height-1 && x != this.width-1) this.uncover(x+1, y+1)
-            if(y != 0 && x != 0) this.uncover(x-1, y-1)
-            if(y != this.height-1 && x != 0) this.uncover(x-1, y+1)
-            if(y != 0 && x != this.width-1) this.uncover(x+1, y-1)
+            this.uncover(x-1, y)
+            this.uncover(x+1, y)
+            this.uncover(x, y+1)
+            this.uncover(x, y-1)
+            this.uncover(x+1, y+1)
+            this.uncover(x-1, y-1)
+            this.uncover(x-1, y+1)
+            this.uncover(x+1, y-1)
             
         }
     }
-    genGrid() {
+    resetGrid() {
 
         //gen the places of the bombs
         while(this.bombs.length != this.bombAmount) {
@@ -84,6 +87,7 @@ class Minesweeper {
                 }
             }
         }
+        this.update()
 
     }
     //update the game visually
@@ -100,7 +104,7 @@ class Minesweeper {
                 if(this.grid[x][y].discovered) {
                     ctx.fillStyle = 'white'
                 } else if(this.grid[x][y].marked) {
-                    ctx.fillStyle = 'red'
+                    ctx.fillStyle = 'yellow'
                 } else {
                     ctx.fillStyle = 'black'
                 }
