@@ -11,7 +11,7 @@ class Minesweeper {
         this.grid = []
         this.bombs = []
         this.resetGrid()
-
+        document.getElementById('bombs').innerHTML = this.bombAmount
 
         //events
         //disable right licking in canvas
@@ -28,6 +28,8 @@ class Minesweeper {
                 if(x >= this.width-1) return
                 if(y >= this.height-1) return
                 this.grid[x][y].marked = true
+
+                document.getElementById('bombs').innerHTML = this.bombAmount-this.grid.flat().filter(g => g.marked).length
             }
             this.update()
         })

@@ -5,4 +5,4 @@ const ctx = canvas.getContext('2d')
 // canvas.width = window.innerHeight
 
 const game = new Minesweeper(40, 40, 120)
-//game.update()
+

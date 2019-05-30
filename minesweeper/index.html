@@ -5,11 +5,15 @@
     <title>Minesweeper</title>
     <script src="minesweeper.js"></script>
     <style>
+<<<<<<< HEAD
     html, body {
         margin: 0px;
         padding: 0px;
     }
     p, span {
+=======
+    .info {
+>>>>>>> e1d653f6eefc6b219c25743f6d2a35341e1e0bd5
         position: absolute;
         left: 800px;
         top: 10px;
@@ -18,10 +22,12 @@
 </head>
 <body>
     <canvas id="canvas" width="700" height="700"></canvas>
-    <span>Bombs left to mark: -1</span><br><br>
-    <span>Timer: -1</span> <br><br>
+    <div class="info">
+        <span>Bombs left to mark: <span id="bombs">-1</span></span><br>
+        <span>Timer: <span id="timer">-1</span></span> <br>
 
-    <button>Restart</button> <br><br>
+        <button>Restart</button> <br>
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
