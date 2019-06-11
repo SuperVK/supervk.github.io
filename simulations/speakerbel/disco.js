@@ -54,7 +54,7 @@ class Disco {
             for(let y in this.grid[x]) {
                 ctx.beginPath()
                 ctx.strokeStyle = '#aaf'
-                ctx.lineWidth = this.spacingX/25
+                ctx.lineWidth = this.spacingX/100
 
                 let totalwattmeter2 = 0
 
@@ -69,8 +69,8 @@ class Disco {
                 if(totalwattmeter2 == 0) decibel = 0
                 if(Math.random() < 0.001) console.log(decibel)
 
-                ctx.fillStyle = `rgba(0, 0, 0, ${(decibel-50)/70})`
-
+                ctx.fillStyle = `rgba(0, 0, 0, ${(decibel)/120})`
+                if(this.grid[x][y].speakerWatt) ctx.fillStyle = ''
                 //choose the color of the block
                 ctx.rect(this.spacingX*x, this.spacingY*y, this.spacingX, this.spacingY)
                 ctx.fill()
