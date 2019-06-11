@@ -10,7 +10,7 @@ class Minesweeper {
         //will be a 2d array
         this.grid = []
         this.bombs = []
-        this.resetGrid()
+        this.genGrid()
         document.getElementById('bombs').innerHTML = this.bombAmount
 
         //events
@@ -33,6 +33,32 @@ class Minesweeper {
             }
             this.update()
         })
+
+    }
+    leftClick() {
+        let x = Math.floor(event.clientX/this.spacingX)
+        let y = Math.floor(event.clientY/this.spacingY)
+        this.uncover(x, y)
+        this.update()
+    }
+    rightClick() {
+        let x = Math.floor(event.clientX/this.spacingX)
+        let y = Math.floor(event.clientY/this.spacingY)
+        if(x >= this.width-1) return
+        if(y >= this.height-1) return
+        this.grid[x][y].marked = true
+
+        document.getElementById('bombs').innerHTML = this.bombAmount-this.grid.flat().filter(g => g.marked).length
+        this.update()
+    }
+    showall() {
+        for(let x in this.grid) {
+            for(let y in this.grid[x]) {
+                this.grid[x][y].discovered = true
+                
+            }
+        }
+        this.update()
     }
     uncover(x, y) {
         if(x < 0 || x > this.width-1 || y < 0 || y > this.height-1) return
@@ -50,7 +76,7 @@ class Minesweeper {
             
         }
     }
-    resetGrid() {
+    genGrid(startx, starty) {
 
         //gen the places of the bombs
         while(this.bombs.length != this.bombAmount) {

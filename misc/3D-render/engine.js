@@ -54,7 +54,7 @@ class Engine3D {
                 ctx.closePath()
                 ctx.fillStyle = face.color
                 ctx.fill()
-                ctx.stroke()
+                //ctx.stroke()
             }
         }
           

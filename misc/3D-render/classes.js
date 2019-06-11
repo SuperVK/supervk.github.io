@@ -30,27 +30,51 @@ class Cube {
         ]
         this.faces = [
             {
-                points: [this.vertices[0], this.vertices[1], this.vertices[3], this.vertices[2]],
+                points: [this.vertices[0], this.vertices[1], this.vertices[3]],
                 color: '#C41E3A'
             },
             {
-                points: [this.vertices[1], this.vertices[5], this.vertices[7], this.vertices[3]],
+                points: [this.vertices[0], this.vertices[3], this.vertices[2]],
+                color: '#C41E3A'
+            },
+            {
+                points: [this.vertices[1], this.vertices[5], this.vertices[7]],
                 color: '#009E60'
             },
             {
-                points: [this.vertices[5], this.vertices[4], this.vertices[6], this.vertices[7]],
+                points: [this.vertices[1], this.vertices[7], this.vertices[3]],
+                color: '#009E60'
+            },
+            {
+                points: [this.vertices[5], this.vertices[4], this.vertices[6]],
                 color: '#FF5800'
             },
             {
-                points: [this.vertices[4], this.vertices[6], this.vertices[2], this.vertices[0]],
+                points: [this.vertices[5], this.vertices[6], this.vertices[7]],
+                color: '#FF5800'
+            },
+            {
+                points: [this.vertices[4], this.vertices[6], this.vertices[2]],
                 color: '#FFD500'
             },
             {
-                points: [this.vertices[2], this.vertices[3], this.vertices[7], this.vertices[6]],
+                points: [this.vertices[4], this.vertices[2], this.vertices[0]],
+                color: '#FFD500'
+            },
+            {
+                points: [this.vertices[2], this.vertices[3], this.vertices[7]],
                 color: '#FFFFFF'
             },
             {
-                points: [this.vertices[0], this.vertices[4], this.vertices[5], this.vertices[1]],
+                points: [this.vertices[2], this.vertices[7], this.vertices[6]],
+                color: '#FFFFFF'
+            },
+            {
+                points: [this.vertices[0], this.vertices[4], this.vertices[5]],
+                color: '#0051BA'
+            },
+            {
+                points: [this.vertices[0], this.vertices[5], this.vertices[1]],
                 color: '#0051BA'
             }
         ]
