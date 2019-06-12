@@ -1,27 +1,60 @@
 class Disco {
-    constructor(width, height, bombAmount) {
+    constructor(width, height, canvas, infoDOM) {
         this.width = width
         this.height = height
 
+        this.canvas = canvas
+        this.ctx = canvas.getContext('2d')
+
         //pixel
-        this.spacingX = canvas.width/width
-        this.spacingY = canvas.height/height
+        this.spacingX = Math.ceil(this.canvas.width/width)
+        this.spacingY = Math.ceil(this.canvas.height/height)
+
+        this.canvas.width = this.spacingX*width
+        this.canvas.height = this.spacingY*height
         //will be a 2d array
         this.grid = []
         
+       
         this.speakers = []
 
         this.genGrid()
 
+        canvas.addEventListener('contextmenu', event => event.preventDefault())
+        canvas.addEventListener('mousedown', event => {
+            //left click
+            //the monster formula is for 
+            if(event.buttons == 1) disco.leftClick(Math.floor(event.clientX/disco.spacingX), Math.floor(event.clientY/disco.spacingY))
+            else if(event.buttons == 2) disco.rightClick(Math.floor(event.clientX/disco.spacingX), Math.floor(event.clientY/disco.spacingY))
+            
+        })
+        canvas.addEventListener('mousemove', event => {
+            disco.hover(Math.floor(event.clientX/disco.spacingX), Math.floor(event.clientY/disco.spacingY))
+        })
+
+        this.infoDOM = infoDOM
+        
+
     }
     leftClick(x,y) {
-        console.log(x,y)
-        this.speakers.push({
-           x: x,
-           y: y,
-           watt: 100
-       })
+        if(this.speakers.filter(s => s.x == x && s.y == y).length != 0) {
+            this.speakers.splice(this.speakers.findIndex(s => s.x == x && s.y == y), 1)
+            this.grid[x][y].speakerWatt = 0
+        } else {
+            this.speakers.push({
+                x: x,
+                y: y,
+                watt: 750
+            })
+            this.grid[x][y].speakerWatt = 400
+        }
        this.update()
+    }
+    hover(x,y) {
+        document.getElementById('tilex').innerHTML = x
+        document.getElementById('tiley').innerHTML = y
+        document.getElementById('tilewattmeter2').innerHTML = this.grid[x][y].wattmeter2
+        document.getElementById('tiledecibel').innerHTML = this.grid[x][y].decibel
     }
     rightClick() {
         //unimplemented
@@ -34,6 +67,7 @@ class Disco {
                 this.grid[x][y] = {
                     speakerWatt: 0,
                     wattmeter2: 0,
+                    irel: 0,
                     decibel: 0
                 }
             }
@@ -43,18 +77,18 @@ class Disco {
     }
     //update the game visually
     update() {
-        ctx.fillStyle = 'white'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        this.ctx.fillStyle = 'white'
+        this.ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-        for(let speaker of this.speakers) {
-            this.grid[speaker.x][speaker.y].speakerWatt = speaker.watt
-        }
+        
 
         for(let x in this.grid) {
             for(let y in this.grid[x]) {
-                ctx.beginPath()
-                ctx.strokeStyle = '#aaf'
-                ctx.lineWidth = this.spacingX/100
+                //this gets executed for every tile
+
+                this.ctx.beginPath()
+                this.ctx.strokeStyle = '#aaf'
+                
 
                 let totalwattmeter2 = 0
 
@@ -65,16 +99,18 @@ class Disco {
 
 
                 this.grid[x][y].wattmeter2 = totalwattmeter2
-                let decibel = this.grid[x][y].decibel = 10*Math.log10(totalwattmeter2/I0)
+                this.grid[x][y].irel = totalwattmeter2/I0
+                let decibel = 0
                 if(totalwattmeter2 == 0) decibel = 0
-                if(Math.random() < 0.001) console.log(decibel)
+                else decibel = this.grid[x][y].decibel = 10*Math.log10(this.grid[x][y].irel)
 
-                ctx.fillStyle = `rgba(0, 0, 0, ${(decibel)/120})`
-                if(this.grid[x][y].speakerWatt) ctx.fillStyle = ''
+                if(decibel > 60) this.ctx.fillStyle = heatMapColorforValue((decibel-60)/60)
+                else this.ctx.fillStyle = heatMapColorforValue(0)
+                if(this.grid[x][y].speakerWatt != 0) this.ctx.fillStyle = heatMapColorforValue(1.5)
                 //choose the color of the block
-                ctx.rect(this.spacingX*x, this.spacingY*y, this.spacingX, this.spacingY)
-                ctx.fill()
-                ctx.stroke()
+                this.ctx.rect(this.spacingX*x, this.spacingY*y, this.spacingX, this.spacingY)
+                this.ctx.fill()
+                //this.ctx.stroke()
             }
         }
     }
@@ -86,5 +122,10 @@ function Speaker(watt, x, y) {
     this.watt = watt
     this.x = x
     this.y = y
+}
+
+function heatMapColorforValue(value){
+    var h = (1.0 - value) * 240
+    return "hsl(" + h + ", 100%, 50%)";
 }
 

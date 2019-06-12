@@ -18,11 +18,17 @@
 </head>
 <body>
     <canvas id="canvas" width="700" height="700"></canvas>
-    <div class="info">
+    <div class="info" id="info">
         <div> <b>Settings</b> <br>
             Width: <input id="width" type="number" value="40"> <br>
             Height: <input id="height" type="number" value="20"> <Br>
-            <button id="restart">Reload</button> <br>
+            <button id="restart" disabled>Reload</button> <br>
+        </div> <br>
+        <div> <b>Tile info:</b> <br>
+            X: <span id="tilex">nothing yet</span> <br>
+            Y: <span id="tiley">nothing yet</span> <br>
+            Watt/m<sup>2</sup>: <span id="tilewattmeter2">nothing yet</span> <br>
+            Decibel: <span id="tiledecibel">nothing yet</span> <br>
         </div>
     </div>
     <script src="main.js"></script>
