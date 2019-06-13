@@ -24,12 +24,12 @@ class Disco {
         canvas.addEventListener('mousedown', event => {
             //left click
             //the monster formula is for 
-            if(event.buttons == 1) disco.leftClick(Math.floor(event.clientX/disco.spacingX), Math.floor(event.clientY/disco.spacingY))
-            else if(event.buttons == 2) disco.rightClick(Math.floor(event.clientX/disco.spacingX), Math.floor(event.clientY/disco.spacingY))
+            if(event.buttons == 1) this.leftClick(Math.floor(event.clientX/this.spacingX), Math.floor(event.clientY/this.spacingY))
+            else if(event.buttons == 2) this.rightClick(Math.floor(event.clientX/this.spacingX), Math.floor(event.clientY/this.spacingY))
             
         })
         canvas.addEventListener('mousemove', event => {
-            disco.hover(Math.floor(event.clientX/disco.spacingX), Math.floor(event.clientY/disco.spacingY))
+            this.hover(Math.floor(event.clientX/this.spacingX), Math.floor(event.clientY/this.spacingY))
         })
 
         this.infoDOM = infoDOM
