@@ -141,7 +141,7 @@ class Disco {
         document.getElementById('speakersAmount').innerHTML = this.speakers.length
         document.getElementById('highestDb').innerHTML = max
         document.getElementById('lowestDb').innerHTML = lowest
-        document.getElementById('gridaverage').innerHTML = totalDb/(this.width*this.height)
+        document.getElementById('gridaverage').innerHTML = totalDb/(this.width*this.height-this.speakers.length)
     }
 
 }
