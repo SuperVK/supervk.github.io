@@ -24,12 +24,25 @@ class Disco {
         canvas.addEventListener('mousedown', event => {
             //left click
             //the monster formula is for 
-            if(event.buttons == 1) disco.leftClick(Math.floor(event.clientX/disco.spacingX), Math.floor(event.clientY/disco.spacingY))
-            else if(event.buttons == 2) disco.rightClick(Math.floor(event.clientX/disco.spacingX), Math.floor(event.clientY/disco.spacingY))
+            if(event.buttons == 1) this.leftClick(Math.floor(event.clientX/this.spacingX), Math.floor(event.clientY/this.spacingY))
+            else if(event.buttons == 2) this.rightClick(Math.floor(event.clientX/this.spacingX), Math.floor(event.clientY/this.spacingY))
             
         })
         canvas.addEventListener('mousemove', event => {
-            disco.hover(Math.floor(event.clientX/disco.spacingX), Math.floor(event.clientY/disco.spacingY))
+            this.hover(Math.floor(event.clientX/this.spacingX), Math.floor(event.clientY/this.spacingY))
+        })
+      
+        document.getElementById('restart').addEventListener('mousedown', event => {
+            this.width = Number(document.getElementById('width').value)
+            this.height = Number(document.getElementById('height').value)
+          
+            //pixel
+          
+            this.canvas.width = this.spacingX*this.width
+            this.canvas.height = this.spacingY*this.height
+            this.speakers = []
+            this.genGrid()
+            this.update()
         })
 
         this.infoDOM = infoDOM
@@ -44,9 +57,8 @@ class Disco {
             this.speakers.push({
                 x: x,
                 y: y,
-                watt: 750
+                watt: speakerWatt
             })
-            this.grid[x][y].speakerWatt = 400
         }
        this.update()
     }
@@ -60,12 +72,12 @@ class Disco {
         //unimplemented
     }
     genGrid() {
+      this.grid = []
         for(let x = 0; x < this.width; x++) {
             //set every column to a new array
             this.grid[x] = []
             for(let y = 0; y < this.height; y++) {
                 this.grid[x][y] = {
-                    speakerWatt: 0,
                     wattmeter2: 0,
                     irel: 0,
                     decibel: 0
@@ -75,7 +87,7 @@ class Disco {
         this.update()
 
     }
-    //update the game visually
+    //update the game visually and logic wise
     update() {
         this.ctx.fillStyle = 'white'
         this.ctx.fillRect(0, 0, canvas.width, canvas.height)
@@ -87,8 +99,6 @@ class Disco {
                 //this gets executed for every tile
 
                 this.ctx.beginPath()
-                this.ctx.strokeStyle = '#aaf'
-                
 
                 let totalwattmeter2 = 0
 
@@ -106,11 +116,11 @@ class Disco {
 
                 if(decibel > 60) this.ctx.fillStyle = heatMapColorforValue((decibel-60)/60)
                 else this.ctx.fillStyle = heatMapColorforValue(0)
-                if(this.grid[x][y].speakerWatt != 0) this.ctx.fillStyle = heatMapColorforValue(1.5)
+                if(this.speakers.findIndex(s => s.x == x && s.y == y) != -1) this.ctx.fillStyle = heatMapColorforValue(1.5)
                 //choose the color of the block
                 this.ctx.rect(this.spacingX*x, this.spacingY*y, this.spacingX, this.spacingY)
                 this.ctx.fill()
-                //this.ctx.stroke()
+
             }
         }
     }
