@@ -92,12 +92,15 @@ class Disco {
         this.ctx.fillStyle = 'white'
         this.ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-        
+        let max = 0
+        let lowest = Infinity
+        let totalDb = 0
 
         for(let x in this.grid) {
             for(let y in this.grid[x]) {
                 //this gets executed for every tile
 
+              
                 this.ctx.beginPath()
 
                 let totalwattmeter2 = 0
@@ -114,15 +117,31 @@ class Disco {
                 if(totalwattmeter2 == 0) decibel = 0
                 else decibel = this.grid[x][y].decibel = 10*Math.log10(this.grid[x][y].irel)
 
-                if(decibel > 60) this.ctx.fillStyle = heatMapColorforValue((decibel-60)/60)
+                if(decibel > 60) this.ctx.fillStyle = heatMapColorforValue((decibel-80)/40)
                 else this.ctx.fillStyle = heatMapColorforValue(0)
+              
+                //if tile is speaker
                 if(this.speakers.findIndex(s => s.x == x && s.y == y) != -1) this.ctx.fillStyle = heatMapColorforValue(1.5)
+                else {
+                  if(this.grid[x][y].decibel > max) max = this.grid[x][y].decibel 
+                  else if(this.grid[x][y].decibel < lowest) lowest = this.grid[x][y].decibel
+                  
+                  totalDb += this.grid[x][y].decibel
+                }
+              
+
+                            
+              
                 //choose the color of the block
                 this.ctx.rect(this.spacingX*x, this.spacingY*y, this.spacingX, this.spacingY)
                 this.ctx.fill()
 
             }
         }
+        document.getElementById('speakersAmount').innerHTML = this.speakers.length
+        document.getElementById('highestDb').innerHTML = max
+        document.getElementById('lowestDb').innerHTML = lowest
+        document.getElementById('gridaverage').innerHTML = totalDb/(this.width*this.height)
     }
 
 }
