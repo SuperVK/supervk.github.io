@@ -2,10 +2,18 @@ class Disco {
     constructor(width, height, canvas, infoDOM) {
         this.width = width
         this.height = height
-
+	
+	this.range = [0, 120]
+	
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')
-
+	
+	this.rendamentDB = Number(document.getElementById('rendament').value)
+        this.wattsIn = Number(document.getElementById('watts').value)
+	
+	this.rendamentPerCent = Math.pow(10, this.rendamentDB / 10) * I0 * 4 * Math.PI
+	this.Psound = this.rendamentPerCent * this.wattsIn
+	
         //pixel
         this.spacingX = Math.ceil(this.canvas.width/width)
         this.spacingY = Math.ceil(this.canvas.height/height)
@@ -33,9 +41,14 @@ class Disco {
         })
       
         document.getElementById('restart').addEventListener('mousedown', event => {
-            this.width = Number(document.getElementById('width').value)
-            this.height = Number(document.getElementById('height').value)
-          
+           	this.width = Number(document.getElementById('width').value)
+            	this.height = Number(document.getElementById('height').value)
+
+		this.rendamentDB = Number(document.getElementById('rendament').value)
+        	this.wattsIn = Number(document.getElementById('watts').value)
+	
+		this.rendamentPerCent = Math.pow(10, this.rendamentDB / 10) * I0 * 4 * Math.PI
+		this.Psound = this.rendamentPerCent * this.wattsIn
             //pixel
           
             this.canvas.width = this.spacingX*this.width
@@ -57,7 +70,7 @@ class Disco {
             this.speakers.push({
                 x: x,
                 y: y,
-                watt: speakerWatt
+                watt: this.Psound
             })
         }
        this.update()
@@ -65,8 +78,8 @@ class Disco {
     hover(x,y) {
         document.getElementById('tilex').innerHTML = x
         document.getElementById('tiley').innerHTML = y
-        document.getElementById('tilewattmeter2').innerHTML = this.grid[x][y].wattmeter2
-        document.getElementById('tiledecibel').innerHTML = this.grid[x][y].decibel
+        document.getElementById('tilewattmeter2').innerHTML = Math.round(this.grid[x][y].wattmeter2 * 10000)/10000
+        document.getElementById('tiledecibel').innerHTML = Math.round(this.grid[x][y].decibel*100)/100
     }
     rightClick() {
         //unimplemented
@@ -117,11 +130,11 @@ class Disco {
                 if(totalwattmeter2 == 0) decibel = 0
                 else decibel = this.grid[x][y].decibel = 10*Math.log10(this.grid[x][y].irel)
 
-                if(decibel > 60) this.ctx.fillStyle = heatMapColorforValue((decibel-80)/40)
+                if(decibel > 80) this.ctx.fillStyle = heatMapColorforValue((decibel - 80)/40)
                 else this.ctx.fillStyle = heatMapColorforValue(0)
               
                 //if tile is speaker
-                if(this.speakers.findIndex(s => s.x == x && s.y == y) != -1) this.ctx.fillStyle = heatMapColorforValue(1.5)
+                if(this.speakers.findIndex(s => s.x == x && s.y == y) != -1) this.ctx.fillStyle = 'black'
                 else {
                   if(this.grid[x][y].decibel > max) max = this.grid[x][y].decibel 
                   else if(this.grid[x][y].decibel < lowest) lowest = this.grid[x][y].decibel
@@ -138,14 +151,17 @@ class Disco {
 
             }
         }
+
+
+
+	
         document.getElementById('speakersAmount').innerHTML = this.speakers.length
-        document.getElementById('highestDb').innerHTML = max
-        document.getElementById('lowestDb').innerHTML = lowest
-        document.getElementById('gridaverage').innerHTML = totalDb/(this.width*this.height-this.speakers.length)
+        document.getElementById('highestDb').innerHTML = Math.round(max*100)/100
+        document.getElementById('lowestDb').innerHTML = Math.round(lowest*100)/100
+        document.getElementById('gridaverage').innerHTML = Math.round(totalDb/(this.width*this.height-this.speakers.length)*100)/100
     }
 
 }
-
 
 function Speaker(watt, x, y) {
     this.watt = watt
@@ -157,4 +173,3 @@ function heatMapColorforValue(value){
     var h = (1.0 - value) * 240
     return "hsl(" + h + ", 100%, 50%)";
 }
-
