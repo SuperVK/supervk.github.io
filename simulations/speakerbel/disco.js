@@ -119,7 +119,7 @@ class Disco {
                 let totalwattmeter2 = 0
 
                 for(let speaker of this.speakers) {
-                    let distance = Math.sqrt((speaker.x-x)**2 + (speaker.y-y)**2)
+                    let distance = Math.sqrt((speaker.x-x)**2 + (speaker.y-y)**2 + (8-2)**2)
                     totalwattmeter2 += (speaker.watt)/(4*Math.PI*(distance**2))
                 }
 
