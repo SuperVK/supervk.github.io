@@ -2,7 +2,7 @@ class Disco {
     constructor(width, height, canvas, infoDOM) {
         this.width = width
         this.height = height
-	
+	    
 	this.range = [0, 120]
 	
         this.canvas = canvas
@@ -128,7 +128,7 @@ class Disco {
                 this.grid[x][y].irel = totalwattmeter2/I0
                 let decibel = 0
                 if(totalwattmeter2 == 0) decibel = 0
-                else decibel = this.grid[x][y].decibel = 10*Math.log10(this.grid[x][y].irel)
+                else decibel = this.grid[x][y].decibel = 10*Math.log10(this.grid[x][y].irel) - protection
 
                 if(decibel > 80) this.ctx.fillStyle = heatMapColorforValue((decibel - 80)/40)
                 else this.ctx.fillStyle = heatMapColorforValue(0)
@@ -148,7 +148,7 @@ class Disco {
                 //choose the color of the block
                 this.ctx.rect(this.spacingX*x, this.spacingY*y, this.spacingX, this.spacingY)
                 this.ctx.fill()
-
+		
             }
         }
 
@@ -159,8 +159,10 @@ class Disco {
         document.getElementById('highestDb').innerHTML = Math.round(max*100)/100
         document.getElementById('lowestDb').innerHTML = Math.round(lowest*100)/100
         document.getElementById('gridaverage').innerHTML = Math.round(totalDb/(this.width*this.height-this.speakers.length)*100)/100
+    	
+	
     }
-
+	
 }
 
 function Speaker(watt, x, y) {
