@@ -3,7 +3,9 @@ class Disco {
         this.width = width
         this.height = height
 	    
+
 	this.range = [75, 90]
+
 	
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')

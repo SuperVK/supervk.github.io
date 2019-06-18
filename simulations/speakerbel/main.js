@@ -4,6 +4,7 @@ const infoDOM = document.getElementById('info')
 const disco = new Disco(40, 20, canvas1, infoDOM)
 let  protection = 20;
 
+
 const heatmap = document.getElementById('heatmap')
 const heatmapctx = heatmap.getContext('2d')
 
@@ -17,4 +18,5 @@ for(let i = 0; i < 1; i += 0.1) {
 heatmapctx.fillStyle = gradient
 
 heatmapctx.fillRect(0, 0, heatmap.width, heatmap.height);
+
 
