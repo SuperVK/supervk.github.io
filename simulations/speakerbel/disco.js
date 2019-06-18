@@ -3,7 +3,9 @@ class Disco {
         this.width = width
         this.height = height
 	    
-	this.range = [0, 120]
+
+	this.range = [75, 90]
+
 	
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')
@@ -43,7 +45,8 @@ class Disco {
         document.getElementById('restart').addEventListener('mousedown', event => {
            	this.width = Number(document.getElementById('width').value)
             	this.height = Number(document.getElementById('height').value)
-
+            this.range[0] = Number(document.getElementById('range0').value)
+          this.range[1] = Number(document.getElementById('range1').value)
 		this.rendamentDB = Number(document.getElementById('rendament').value)
         	this.wattsIn = Number(document.getElementById('watts').value)
 	
@@ -130,7 +133,7 @@ class Disco {
                 if(totalwattmeter2 == 0) decibel = 0
                 else decibel = this.grid[x][y].decibel = 10*Math.log10(this.grid[x][y].irel) - protection
 
-                if(decibel > 80) this.ctx.fillStyle = heatMapColorforValue((decibel - 80)/40)
+                if(decibel > this.range[0]) this.ctx.fillStyle = heatMapColorforValue((decibel - this.range[0])/(this.range[1]-this.range[0]))
                 else this.ctx.fillStyle = heatMapColorforValue(0)
               
                 //if tile is speaker
