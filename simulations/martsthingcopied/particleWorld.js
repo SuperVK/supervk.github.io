@@ -40,7 +40,8 @@ class ParticleWorld {
 
                 let opacity = 1-(distance/this.radius)
                 
-                this.ctx.strokeStyle = `rgb(${opacity*239+16}, ${opacity*239+16}, ${opacity*239+16})`
+                this.ctx.strokeStyle = 'white'
+                this.ctx.lineWidth = opacity*1
                 this.ctx.moveTo(particle.pos.x, particle.pos.y)
                 this.ctx.lineTo(otherparticle.pos.x, otherparticle.pos.y)
                 this.ctx.stroke()
