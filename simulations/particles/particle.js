@@ -25,7 +25,7 @@ class Creature extends Particle {
         }
         this.radius = 125
     }
-    process() {
+    move() {
         this.pos = this.pos.add(this.vel)
         if(this.pos.x < 2 || this.pos.x > canvas.width-2) this.vel.x = this.vel.x*-1
         if(this.pos.y < 2 || this.pos.y > canvas.height-2) this.vel.y = this.vel.y*-1
@@ -35,5 +35,6 @@ class Creature extends Particle {
 class Food extends Particle {
     constructor(pos) {
         super(pos)
+        this.radius = Infinity
     }
 }
