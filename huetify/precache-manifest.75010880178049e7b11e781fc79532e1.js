@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "eda5eebd63af2039da3665d2584bba64",
+    "revision": "734da152b7336a16fc58aa242baec846",
     "url": "/huetify/index.html"
   },
   {
-    "revision": "62070d84ade7dea316f2",
-    "url": "/huetify/static/css/main.12fa6574.chunk.css"
+    "revision": "e09ddc1fa17c1c6f9a1a",
+    "url": "/huetify/static/css/main.e4c75013.chunk.css"
   },
   {
     "revision": "4daf2c6bdffe82a39e6e",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/huetify/static/js/2.f25c8919.chunk.js.LICENSE"
   },
   {
-    "revision": "62070d84ade7dea316f2",
-    "url": "/huetify/static/js/main.a7b552a4.chunk.js"
+    "revision": "e09ddc1fa17c1c6f9a1a",
+    "url": "/huetify/static/js/main.96152fab.chunk.js"
   },
   {
     "revision": "69065685120d7fb2ce6b",
