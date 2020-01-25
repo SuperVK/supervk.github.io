@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/huetify/precache-manifest.75010880178049e7b11e781fc79532e1.js"
+  "/huetify/precache-manifest.f73706e07ca67e5baf1a87a973de88cd.js"
 );
 
 self.addEventListener('message', (event) => {

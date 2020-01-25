@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/huetify/static/css/main.e4c75013.chunk.css",
+    "main.css": "/huetify/static/css/main.754f91a1.chunk.css",
     "main.js": "/huetify/static/js/main.96152fab.chunk.js",
     "main.js.map": "/huetify/static/js/main.96152fab.chunk.js.map",
     "runtime-main.js": "/huetify/static/js/runtime-main.8ba47350.js",
@@ -8,16 +8,16 @@
     "static/js/2.f25c8919.chunk.js": "/huetify/static/js/2.f25c8919.chunk.js",
     "static/js/2.f25c8919.chunk.js.map": "/huetify/static/js/2.f25c8919.chunk.js.map",
     "index.html": "/huetify/index.html",
-    "precache-manifest.75010880178049e7b11e781fc79532e1.js": "/huetify/precache-manifest.75010880178049e7b11e781fc79532e1.js",
+    "precache-manifest.f73706e07ca67e5baf1a87a973de88cd.js": "/huetify/precache-manifest.f73706e07ca67e5baf1a87a973de88cd.js",
     "service-worker.js": "/huetify/service-worker.js",
-    "static/css/main.e4c75013.chunk.css.map": "/huetify/static/css/main.e4c75013.chunk.css.map",
+    "static/css/main.754f91a1.chunk.css.map": "/huetify/static/css/main.754f91a1.chunk.css.map",
     "static/js/2.f25c8919.chunk.js.LICENSE": "/huetify/static/js/2.f25c8919.chunk.js.LICENSE",
     "static/media/corner.svg": "/huetify/static/media/corner.56ef9759.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.8ba47350.js",
     "static/js/2.f25c8919.chunk.js",
-    "static/css/main.e4c75013.chunk.css",
+    "static/css/main.754f91a1.chunk.css",
     "static/js/main.96152fab.chunk.js"
   ]
 }
