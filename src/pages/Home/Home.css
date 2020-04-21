@@ -1,0 +1,21 @@
+.text {
+    width: 800px;
+}
+
+.Paragraph {
+    margin: 25px;
+}
+
+.logo {
+    margin: 25px;
+    margin-bottom: 0px;
+    margin-top: 50px;
+}
+
+.Title {
+    font-size: 4em;
+}
+
+.content {
+    background-color: rgb(235, 235, 235)
+}

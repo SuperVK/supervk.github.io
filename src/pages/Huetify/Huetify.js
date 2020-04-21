@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Huetify.css'
+import corner from './corner.svg'
 
 export default class Huetify extends Component {
     render() {

@@ -1,0 +1,13 @@
+.DayDreamsApp {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 239, 241);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ddwip {
+    color: black;
+    font-size: 7em;
+}
