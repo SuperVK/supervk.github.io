@@ -11418,6 +11418,16 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"react-parallax@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "react-parallax@npm:3.0.3"
+  peerDependencies:
+    react: 16.x.x
+    react-dom: 16.x.x
+  checksum: 2/95293e5015d5bfdf9861ea38c05e74558f25d95d21d7f7f4cfa4bbb766c1f919f9f709c957942c2e2179614c9fe28608b008139b9da409819d3e2aa4283cb4b4
+  languageName: node
+  linkType: hard
+
 "react-scripts@npm:3.4.0":
   version: 3.4.0
   resolution: "react-scripts@npm:3.4.0"
@@ -13037,6 +13047,7 @@ resolve@1.1.7:
     gh-pages: ^2.2.0
     react: ^16.13.0
     react-dom: ^16.13.0
+    react-parallax: ^3.0.3
     react-scripts: 3.4.0
   languageName: unknown
   linkType: soft
