@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <style>
+        #main {
+            position: absolute;
+            font-family: Roboto;
+            text-align: center;
+            border-style: solid;
+            left: 50%;
+            bottom: 60%;
+            margin-left: -180px;
+            margin-right: -180px;
+            margin-top: -70px;
+            margin-bottom: -70px;
+        }
+
+        #hex {
+
+            font-size: 60px;
+        }
+
+        #desc {
+            font-size: 24px;
+        }
+    </style>
+    <script src="https://cdn.rawgit.com/BrainJS/brain.js/master/browser.js"></script>
+    <script>
+        function idealTextColor(bgColor) {
+
+            var nThreshold = 105;
+            var components = getRGBComponents(bgColor);
+            var bgDelta = (components.R * 0.299) + (components.G * 0.587) + (components.B * 0.114);
+
+            return ((255 - bgDelta) < nThreshold) ? "#000000" : "#ffffff";
+        }
+
+        function getRGBComponents(color) {
+
+            var r = color.substring(1, 3);
+            var g = color.substring(3, 5);
+            var b = color.substring(5, 7);
+
+            return {
+                R: parseInt(r, 16),
+                G: parseInt(g, 16),
+                B: parseInt(b, 16)
+            };
+        }
+
+        function ranHex() {
+            let hex = '0123456789abcdef'
+            let codes = ['#', 'x', 'x', 'x', 'x', 'x', 'x']
+            let htmlCode = codes
+            let start = Math.floor(Math.random() * 4) + 1
+            htmlCode[start] = '<span id="h404"><strong>4'
+            htmlCode[start + 1] = '0'
+            htmlCode[start + 2] = '4</strong></span>'
+            codes[start] = '4'
+            codes[start + 1] = '0'
+            codes[start + 2] = '4'
+            for (let i in codes) {
+                console.log(codes[i])
+                if (codes[i] == 'x') {
+                    codes[i] = hex[Math.floor(Math.random() * hex.length)]
+                    htmlCode[i] = hex[Math.floor(Math.random() * hex.length)]
+                }
+            }
+            let hexcolor = document.getElementById('hex')
+            let body = document.getElementById('body')
+            hexcolor.innerHTML = htmlCode.join('')
+            console.log(codes.join(''))
+            body.style.backgroundColor = codes.join('')
+            body.style.color = idealTextColor(codes.join(''))
+
+        }
+    </script>
+</head>
+
+<body onload="ranHex()" id="body">
+    <div id="main">
+        <span id="hex">#ffffff</span>
+        <br>
+        <span id="desc">This page doesn't exit!
+            <br>Here's a hex code containing 404!</span>
+    </div>
+</body>
+
+</html>
