@@ -36,4 +36,5 @@
 
 .ShipDownloadButton:hover {
     cursor: pointer;
+    background-color: rgb(52, 151, 192);
 }

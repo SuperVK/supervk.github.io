@@ -7,14 +7,14 @@ export default class Home extends Component {
         return (
 
             <div className="text">
-                <img src={process.env.PUBLIC_URL+'/VK-Isaak.png'} className="logo" alt="logo" style={{
+                <img src={process.env.PUBLIC_URL+'/imgs/VK-Isaak.png'} className="logo" alt="logo" style={{
                     height: '128px',
                     width: '128px'
                 }}></img>
                 <div className="Paragraph">
                     <div className="Title">About me</div>
                     <div className="ParagraphText">I'm Victor Klomp, also known as SuperVK, I have been coding since 2017 and have worked on various small projects since, 
-                    from various bots to IoT applications, you can find my biggest projects above, and various small webapps in day dreams. I also like to take pictures which you can find on my instagram.
+                    from various bots to Internet of Things applications, you can find my biggest projects above, and various small webapps in day dreams. I also like to take pictures which you can find on my instagram.
                     You can find me in my discord (linked below) which I run with <a href="https://martve.me">Mart</a>, a friend of mine. 
                     </div>
                 </div>

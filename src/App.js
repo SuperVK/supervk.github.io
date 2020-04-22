@@ -43,7 +43,7 @@ class App extends React.Component {
             <div className="App" id="App">
                 <Parallax
                     style={{backgroundColor: 'black'}}
-                    bgImage={process.env.PUBLIC_URL+'/1425.jpg'}
+                    bgImage={process.env.PUBLIC_URL+'/imgs/1425.jpg'}
                     bgImageAlt="bgimage"
                     strength={600}
                     bgImageStyle={{opacity: '.8'}}
