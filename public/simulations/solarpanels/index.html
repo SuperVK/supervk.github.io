@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zonnepanelen</title>
+    <script src="rooftop.js"></script>
+    <style>
+    html, body {
+        margin: 0px;
+        padding: 0px;
+    }
+    canvas {
+        margin: 0px;
+        padding: 0px;
+    }
+    #info {
+        position: absolute;
+
+    }
+</style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <div class="info" id="info">
+        <div> <b>Instellingen</b> <br>
+            Orientatie: <input id="orientation" type="number" value="1" min="1" max="2"> <br>
+            Schuin: <input id="angled" type="number" value="1" min="1" max="2"> <br>
+        </div> <br>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
