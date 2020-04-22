@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RSA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="node-rsa.js"></script>
+</head>
+<body>
+    <div class="block" id="generating">
+        <b><h1>Generating or inputing keys</h1></b>
+        <b>Private Key</b> <br>
+        <textarea class="keyinput" cols="50" rows="15" id="privatekey" spellcheck="false"></textarea> <br> <br>
+        <b>Public Key</b> <br>
+        <textarea class="keyinput" cols="50" rows="5" id="publickey" spellcheck="false"></textarea>
+        <span id="importError"></span> <br> <br>
+        <button id="generate">Generate new pair</button> <button id="loadprivate">Load private key</button> <button id="loadpublic">Load public key</button><br> <br> 
+        <p class="infobox">
+            <b>Keys</b> <br>
+            You either generate new keys or input a public key gotten from a friend, or your own stored keys. 
+            Keep your private key private at all times, and share your public key with your friends so they can encrypt or verify messages. 
+            A public key can decrypt a message that is encrypted with a private key, and a private key can decrypt a message that is encrypted with a public key.
+            However, a key can't decrypt the message that it encrypted itself. (EI: a public key can't decrypt a message encrypted by the same public key and the same for private keys)
+        </p>
+    </div>
+    <div class="block" id="assymetric">
+        <b><h1>Encrypting and decrypting</h1></b>
+        <b>Plain text</b> <br>
+        <textarea rows="10" spellcheck="false" id="plaintext"></textarea> <br> <br>
+        <b>Encrypted Message:</b> <br>
+        <textarea rows="10" spellcheck="false" id="encrypted"></textarea>
+        <span id="assymetricError" class="error"></span> <br>
+        <button id="encrypt">Encrypt with public key</button> <button id="decrypt">Decrypt with private key</button> <br> <br>
+        <p class="infobox">
+            <b>Assymetric encryption</b> <br>
+            Give your public key to a friend, and let them encrypt their message with your public key. 
+            Then they can send the encrypted message to you, and only you can decrypt the message. (as you are the only person with the private key that can decrypt the message) 
+        </p>
+    </div>
+    <div class="block" id="signing">
+        <b><h1>Signing and verifying</h1></b>
+        <b>Plain text:</b> <br>
+        <textarea rows="10" spellcheck="false" id="plaintextSign"></textarea> <br> <br>
+        <b>Signature:</b> <br>
+        <textarea rows="10" spellcheck="false" id="signature"></textarea> 
+        <span id="validility"></span> <br>
+        <button id="sign">Create signature</button> <button id="verify">Verify signature</button> <br> <br>
+        
+        <p class="infobox">
+            <b>Digital Signature</b> <br>
+            You can sign messages with your private key, and then make your friend verify it. 
+            If you given your friend a public keys once, they can always ask you to sign a message with your private key, and then you can send the signed message to them. 
+            Then they can verify with your public key and the original messge.
+            An imposter of wouldn't have your private key and wouldn't be able to sign the message.
+        </p>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
