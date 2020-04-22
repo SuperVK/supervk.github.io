@@ -3,11 +3,37 @@
     height: 100%;
     background-color: #333C40;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+    flex-direction: column;
+
 }
 
-.wip {
+.ShipTitle {
     color: white;
-    font-size: 7em;
+    border-bottom: rgb(54, 160, 206) solid 2px;
+    padding: 4px;
+    font-size: 7rem;
+}
+
+.ShipDesc {
+    color: white;
+    font-size: 1.5rem;
+    width: 800px;
+}
+
+.ShipDownloadButton {
+    background-color: rgb(54, 160, 206);
+    font-size: 45px;
+    border-radius: 5px;
+    padding: 0 20px;
+    padding-bottom: 15px;
+    padding-top: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.ShipDownloadButton:hover {
+    cursor: pointer;
 }
