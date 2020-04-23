@@ -17,7 +17,7 @@ class App extends React.Component {
     }
     componentDidMount() {
         let fakeUrl = new URL(window.location)
-        if(!fakeUrl.searchParams.has('q')) return
+        if(!fakeUrl.searchParams.has('p')) return
         let actualURL = new URL(fakeUrl.searchParams.get('p'), 'http://' + window.location.host)
         let state = actualURL.pathname.split('/')[1].toUpperCase()
         if(state === 'HOME') {
