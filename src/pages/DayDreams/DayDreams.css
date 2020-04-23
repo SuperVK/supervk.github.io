@@ -5,9 +5,67 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    flex-direction: column;
 }
 
 .ddtitle {
     color: black;
     font-size: 7em;
+}
+
+.ddDescription {
+    width: 800px;
+    font-size: 1.5rem;
+}
+
+.DDGrid {
+    display: flex;
+    flex-wrap: wrap; 
+    margin: 10%;
+}
+
+.DayDream {
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    background-color: rgb(255, 119, 135);
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+}
+
+.DDBuffer {
+    flex-grow: 9;
+}
+
+.DDContent {
+    transition-duration: 0.4s;
+    transition-property: flex-grow, height;
+    flex-grow: 0;
+    height: 0px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+}
+
+.DayDream:hover {
+    cursor: pointer;
+}
+
+.DayDream:hover > .DDContent {
+    transition-duration: 0.4s;
+    transition-property: all;
+    flex-grow: 9;
+    height: 100%;
+}
+
+
+.DDTitle {
+    background-color: #3f3f3f;
+    color: white;
+    padding-bottom: 2px;
 }

@@ -5,7 +5,7 @@ import corner from './corner.svg'
 export default class Huetify extends Component {
     render() {
         return (
-            <div className="HuetifyApp">
+            <div className="HuetifyApp PageContent">
                 <div id="buffer0"></div>
                 <img src={corner} id="corner0" alt="fancy graphic"></img>
                 <div className="Title">Huetify</div>

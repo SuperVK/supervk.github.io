@@ -19,3 +19,11 @@
 .content {
     background-color: rgb(235, 235, 235)
 }
+
+.BlackLink {
+    color: black;
+}
+
+.BlackLink:visited {
+    color: black;
+}

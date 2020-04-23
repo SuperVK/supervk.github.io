@@ -1,6 +1,7 @@
 import React from 'react';
 import {Parallax} from 'react-parallax'
 import './App.css';
+import './Animations.css'
 import Home from './pages/Home/Home';
 import Huetify from './pages/Huetify/Huetify';
 import NavBarItem from './NavBarItem';
