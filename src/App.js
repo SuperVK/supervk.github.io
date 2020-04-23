@@ -15,14 +15,30 @@ class App extends React.Component {
             activePage: 'HOME'
         }
     }
+    componentDidMount() {
+        let fakeUrl = new URL(window.location)
+        if(!fakeUrl.searchParams.has('q')) return
+        let actualURL = new URL(fakeUrl.searchParams.get('q'), 'http://' + window.location.host)
+        let state = actualURL.pathname.split('/')[1].toUpperCase()
+        if(state === 'HOME') {
+            window.history.replaceState(null, '', '/')
+            return
+        }
+        window.history.pushState(null, '', actualURL)
+        window.history.replaceState(null, '', actualURL)
+        this.updatePage(state)
+    }
     updatePage(location) {
         window.scrollBy(0, 1000)
+        window.history.pushState(null, '', location.toLowerCase())
+        window.history.replaceState(null, '', location.toLowerCase())
         this.setState({ activePage: location })
     }
     render() {
         let activePage;
         switch(this.state.activePage) {
             case 'HUETIFY': {
+
                 activePage = <Huetify></Huetify>
                 break;
             }
@@ -34,9 +50,13 @@ class App extends React.Component {
                 activePage = <DayDreams></DayDreams>
                 break;
             }
-            default: {
+            case 'HOME': {
                 activePage = <Home></Home>
                 break;
+            }
+            default: {
+                activePage = <Home></Home>
+                window.scrollTo(0, 0)
             }
         }
         

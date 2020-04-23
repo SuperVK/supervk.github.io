@@ -1,9 +1,10 @@
 @keyframes fade-in {
     from {
+        /* transform:translate(0, 24px); */
         opacity:0
     }
     to {
-        transform:none;
+        /* transform:none; */
         opacity:1
     }
 }
