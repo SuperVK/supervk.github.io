@@ -7,6 +7,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root {
+  --heightnavbar: 37px;
+}
+
 html {
   scroll-behavior: smooth;
 }

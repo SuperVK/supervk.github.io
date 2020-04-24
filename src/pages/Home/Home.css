@@ -16,8 +16,16 @@
     font-size: 4em;
 }
 
-.content {
-    background-color: rgb(235, 235, 235)
+.HomeApp {
+    background-color: rgb(235, 235, 235);
+    min-height: 100%; 
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.HomeApp > .PageContent {
+    max-width: 800px;
 }
 
 .BlackLink {
@@ -26,4 +34,9 @@
 
 .BlackLink:visited {
     color: black;
+}
+
+.icon {
+    width: 64px;
+    height: 64px;
 }

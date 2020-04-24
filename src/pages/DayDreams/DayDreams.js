@@ -7,11 +7,11 @@ export default class DayDreams extends Component {
         return (
             <div className="DayDreamsApp PageContent">
                 <div className="ddtitle">Day Dreams</div>
-                <div className="ddDescription">Day dreams are small projects usually consisting of one page and a canvas, and often very bare bones. The source code for these are available <a className="BlackLink" target="_blank" rel="noopener noreferrer" href="https://github.com/SuperVK/supervk.github.io/tree/source/public/daydreams">here</a>.</div>
+                <div className="ddDescription">Day dreams are small projects usually consisting of one page and a canvas, and often very bare bones. The source code for these are available <a className="BlackLink" target="_blank" rel="noopener noreferrer" href="https://github.com/SuperVK/supervk.github.io/tree/source/public/daydreams">here</a>.<br/>MOST OF THESE DONT WORK ON MOBILE </div>
                 <div className="DDGrid">
                     {DayDreamsList.map(DayDream => {
                         return (
-                            <div className="DayDreamWrap" key={DayDream.name}>
+                            <div className="DDWrap" key={DayDream.name}>
                                 <a href={`/daydreams/${DayDream.name}`} className="DayDream" style={{
                                         backgroundImage: `url(${process.env.PUBLIC_URL}/daydreams/${DayDream.name}/thumbnail.png)`,
                                         backgroundSize: 'cover'

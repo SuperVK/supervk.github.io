@@ -14,8 +14,25 @@ class App extends React.Component {
         this.state = {
             activePage: 'HOME'
         }
+        window.addEventListener('resize',() => {
+            this.updatePage(this.state.activePage, false)
+        })
+        window.onscroll = this.onscroll.bind(this)
+    }
+    onscroll() {
+        let navbar = document.getElementById('navbar')
+        console.log(window.pageYOffset, window.innerHeight)
+        if(window.pageYOffset >= window.innerHeight*0.95) {
+            navbar.classList.add('sticky')
+        } else {
+            navbar.classList.remove('sticky')
+        }
     }
     componentDidMount() {
+        document.documentElement.style.setProperty('--heightnavbar', `${window.innerHeight*0.05}px`);
+
+
+
         let fakeUrl = new URL(window.location)
         if(!fakeUrl.searchParams.has('p')) return
         let actualURL = new URL(fakeUrl.searchParams.get('p'), window.location.protocol + '//' + window.location.host)
@@ -24,14 +41,16 @@ class App extends React.Component {
             window.history.replaceState(null, '', '/')
             return
         }
-        window.history.pushState(null, '', actualURL)
-        window.history.replaceState(null, '', actualURL)
+        window.history.pushState(null, '', '/'+actualURL)
+        window.history.replaceState(null, '', '/'+actualURL)
         this.updatePage(state)
     }
-    updatePage(location) {
+    updatePage(location, newEntry = true) {
         window.scrollBy(0, 1000)
-        window.history.pushState(null, '', location.toLowerCase())
-        window.history.replaceState(null, '', location.toLowerCase())
+        if(newEntry) {
+            window.history.pushState(null, '', `/${location.toLowerCase()}`)
+            window.history.replaceState(null, '', `/${location.toLowerCase()}`)
+        }
         this.setState({ activePage: location })
     }
     render() {
@@ -78,7 +97,7 @@ class App extends React.Component {
                     <div className="TitleName" id="TitleName">Victor "SuperVK" Klomp</div>
                 </div> */}
                 <div className="content" style={{ height: window.innerHeight, maxHeight: window.innerHeight}}>
-                    <nav className="navbar" style={{height: window.innerHeight*0.05}}>
+                    <nav className="navbar sticky" id="navbar" style={{height: window.innerHeight*0.05}}>
                         <div className="navbarFlex">
                             <NavBarItem 
                                 name={'Home'}
@@ -110,7 +129,7 @@ class App extends React.Component {
                             />
                         </div>
                     </nav>
-                    <div className="page" style={{height: window.innerHeight*0.95}}>{activePage}</div>
+                    <div className="page" style={{minHeight: window.innerHeight*0.95}}>{activePage}</div>
                 </div>
             </div>
         );

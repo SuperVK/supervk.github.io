@@ -52,7 +52,7 @@ const DayDreamsList = [
     },
     {
         name: "speakerbel",
-        description: "Place speakers and see how much sound they produce. (school project)",
+        description: "Place speakers and see how much sound they produce.",
         date: new Date(2019, 5, 11)
     }
 ]
