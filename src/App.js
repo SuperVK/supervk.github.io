@@ -97,7 +97,7 @@ class App extends React.Component {
                     <div className="TitleName" id="TitleName">Victor "SuperVK" Klomp</div>
                 </div> */}
                 <div className="content" style={{ height: window.innerHeight, maxHeight: window.innerHeight}}>
-                    <nav className="navbar sticky" id="navbar" style={{height: window.innerHeight*0.05}}>
+                    <nav className="navbar" id="navbar" style={{height: window.innerHeight*0.05}}>
                         <div className="navbarFlex">
                             <NavBarItem 
                                 name={'Home'}
