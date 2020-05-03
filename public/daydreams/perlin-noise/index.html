@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Perlin Noise</title>
+    <style>
+        body, html {
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+        }
+        .overlay {
+            background-color: rgba(0,0,0,0.8);
+            z-index: 5;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 5px;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+    <script src="lib/perlin.js"></script>
+    <script src="lib/openSimplex.js"></script>
+    <script src="Terrain.js"></script>
+</head>
+<body>
+    <canvas id="masterCanvas"></canvas>
+    <div class="overlay">
+        <div class="info">Left/Right arrow to move in 3D perlin noise<br/>Up/Down to move water level<br/>Everything is super slow, resize your window and refresh to make it faster</div>
+    </div>
+    <script src="./main.js"></script>
+
+</body>
+</html>
