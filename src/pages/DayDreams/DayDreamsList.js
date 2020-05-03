@@ -41,6 +41,11 @@ const DayDreamsList = [
         date: new Date(2019, 7, 12)
     },
     {
+        name: "perlin-noise",
+        description: "Terrain Generation using OpenSimplex noise.",
+        date: new Date(2020, 4, 3)
+    },
+    {
         name: "RSA",
         description: "Work with RSA encryption yourself. (might be broken idk)",
         date: new Date(2019, 0, 26)
