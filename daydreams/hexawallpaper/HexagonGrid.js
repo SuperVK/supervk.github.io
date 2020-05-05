@@ -15,8 +15,7 @@ class HexagonGrid {
     }
 
     draw() {
-        this.time += 0.001
-        console.log(this.time)
+        this.time += 0.01
         this.grid = []
         this.ctx.fillStyle = 'black'
         this.ctx.fillRect(0, 0, this.htmlCanvas.width, this.htmlCanvas.height)
