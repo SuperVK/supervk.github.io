@@ -91,7 +91,7 @@ class HexagonGrid {
         return gradient
     }
     getPerlinColor(value) {
-        let range = 360
+        let range = 480
         return 'hsl('+((value*range)+range)/2+ ', 100%, 50%)'
     }
     getRandomColor() {
