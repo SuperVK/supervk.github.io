@@ -61,13 +61,13 @@ class HexagonGrid {
            // let gradient = this.createGradient(previousLocation.x, previousLocation.y, currentLocation.x, currentLocation.y, previousLocation.color, currentLocation.color)
 
             // lines
-            if(previousLocation.perlin > 0.3) {
+            //if(previousLocation.perlin > 0.3) {
                 this.ctx.beginPath()
                 this.ctx.moveTo(previousLocation.x, previousLocation.y)
                 this.ctx.lineTo(currentLocation.x, currentLocation.y)
                 this.ctx.strokeStyle = previousLocation.color
                 this.ctx.stroke()
-            }
+            //}
             
 
 
