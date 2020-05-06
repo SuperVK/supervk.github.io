@@ -16,7 +16,6 @@ class HexagonGrid {
 
     draw() {
         this.time += 0.01
-        console.log(this.time)
         this.grid = []
         this.ctx.fillStyle = 'black'
         this.ctx.fillRect(0, 0, this.htmlCanvas.width, this.htmlCanvas.height)
@@ -35,7 +34,7 @@ class HexagonGrid {
         if(!this.grid[centerX]) this.grid[centerX] = []
       
 
-        this.grid[centerX][centerY] = new HexagonDot(centerX, centerY, this.getPerlinColor(this.simplex.noise3D(centerX, centerY, this.time)))
+        this.grid[centerX][centerY] = new HexagonDot(centerX, centerY, this.simplex.noise3D(centerX, centerY, this.time))
         this.ctx.fillStyle = '#46778C'
         this.ctx.strokeStyle = 'black'
         this.ctx.lineWidth = 3
@@ -53,7 +52,7 @@ class HexagonGrid {
             if(this.grid[newLocation[0]][newLocation[1]]) {
                 currentLocation = this.grid[newLocation[0]][newLocation[1]]
             } else {
-                this.grid[newLocation[0]][newLocation[1]] = new HexagonDot(newLocation[0], newLocation[1], this.getPerlinColor(this.simplex.noise3D(newLocation[0], newLocation[1], this.time)))
+                this.grid[newLocation[0]][newLocation[1]] = new HexagonDot(newLocation[0], newLocation[1], this.simplex.noise3D(newLocation[0], newLocation[1], this.time))
                 currentLocation = this.grid[newLocation[0]][newLocation[1]]
             }
 
@@ -61,15 +60,18 @@ class HexagonGrid {
            // let gradient = this.createGradient(previousLocation.x, previousLocation.y, currentLocation.x, currentLocation.y, previousLocation.color, currentLocation.color)
 
             // lines
-            this.ctx.beginPath()
-            this.ctx.moveTo(previousLocation.x, previousLocation.y)
-            this.ctx.lineTo(currentLocation.x, currentLocation.y)
-            this.ctx.strokeStyle = previousLocation.color
-            this.ctx.stroke()
+            //if(previousLocation.perlin > 0.3) {
+                this.ctx.beginPath()
+                this.ctx.moveTo(previousLocation.x, previousLocation.y)
+                this.ctx.lineTo(currentLocation.x, currentLocation.y)
+                this.ctx.strokeStyle = previousLocation.color
+                this.ctx.stroke()
+            //}
             
 
 
             // dots
+            
             this.ctx.beginPath()
             this.ctx.fillStyle = previousLocation.color
             this.ctx.arc(previousLocation.x, previousLocation.y, 5, 0, Math.PI*2)
@@ -90,10 +92,10 @@ class HexagonGrid {
         gradient.addColorStop(1, color2)
         return gradient
     }
-    getPerlinColor(value) {
-        let range = 480
-        return 'hsl('+((value*range)+range)/2+ ', 100%, 50%)'
-    }
+    // getPerlinColor(value) {
+    //     let range = 480
+    //     return 'hsl('+((value*range)+range)/2+ ', 100%, 50%)'
+    // }
     getRandomColor() {
         return `rgb(${Math.random()*256}, ${Math.random()*256}, ${Math.random()*256})`
     }

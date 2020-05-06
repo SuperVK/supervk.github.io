@@ -13049,6 +13049,9 @@ resolve@1.1.7:
     react-dom: ^16.13.0
     react-parallax: ^3.0.3
     react-scripts: 3.4.0
+  dependenciesMeta:
+    gh-pages:
+      unplugged: true
   languageName: unknown
   linkType: soft
 
