@@ -7,6 +7,10 @@ class HexagonDot {
     }
     getPerlinColor(value) {
         let range = 360
-        return 'hsl('+((value*range)+range)/2+ ', 100%, 50%)'
+        return 'hsl('+((value*range)+360)/2+ ', 100%, ' + (value*50)+50 + '%)'
+    }
+    setHeight(height) {
+        this.height = height
+        this.color = this.getPerlinColor(height)
     }
 }
