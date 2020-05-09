@@ -1,13 +1,6 @@
 class Renderer {
     constructor() {
-      
-
-
-        // const vao = gl.createVertexArray();
-
-        // gl.bindVertexArray(vao);
-
-        // gl.enableVertexAttribArray(positionAttributeLocation);
+        this.createCircleProgram()
     }
     createCircleProgram() {
         let circlePositions = []
@@ -26,60 +19,74 @@ class Renderer {
 
         this.circleProgram = this.createProgram(gl, cirlceVertexShader, circleFragmentShader);
 
-        this.circlePositionAttribLocation = gl.getAttribLocation(this.circleProgram, "a_position");
-        this.circleColorAttribLocation = gl.getAttribLocation(this.circleProgram, "a_color")
-        this.circleColorAttribTranslation = gl.getAttribLocation(this.cirlceProgram, "a_translation")
+        this.circlePositionAttribLocation = gl.getAttribLocation(this.circleProgram, "a_position")
 
-        this.positionBuffer = gl.createBuffer();
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
+        this.circleResolutionUniformLocation = gl.getUniformLocation(this.circleProgram, "u_resolution");
+        this.circleColorUniformLocation = gl.getUniformLocation(this.circleProgram, "u_color");
 
 
-        // three 2d points
-        const positions = [
-            0, 0,
-            0, 0.5,
-            0.7, 0,
-        ];
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        gl.useProgram(this.circleProgram)
+        gl.uniform2f(this.circleResolutionUniformLocation, gl.canvas.width, gl.canvas.height)
+
+        this.circlePositionBuffer = gl.createBuffer();
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.circlePositionBuffer);
+
     }
-    calculatePositionCirlce(x, y) {
+    calculatePositionsCirlce(x, y, size) {
         let circlePositions = []
 
-        for(let i = 0; i < 50; i += 0.01) {
-            circlePositions.push([
-                x+Math.cos(Math.PI*i), y+Math.sin(Math.PI*i),
-                x+Math.cos(Math.PI*(i+0.01)), y+Math.sin(Math.PI*(i+0.01)),
+        for(let i = 0; i < 2; i += 0.1) {
+            circlePositions.push(
+                x+Math.cos(Math.PI*i)*size, y+Math.sin(Math.PI*i)*size,
+                x+Math.cos(Math.PI*(i+0.1))*size, y+Math.sin(Math.PI*(i+0.1))*size,
                 x, y
-            ])
+            )
         }
+
+        return circlePositions
     }
     createLineProgram() {
 
     }
     draw() {
-        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+        //gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
         // Clear the canvas
         gl.clearColor(0, 0, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
-        gl.useProgram(this.program)
+        gl.useProgram(this.circleProgram)
 
-        gl.enableVertexAttribArray(this.positionAttributeLocation);
+        gl.enableVertexAttribArray(this.circlePositionAttribLocation);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.circlePositionBuffer)
 
         
-        // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-        let size = 2;          // 2 components per iteration
-        let type = gl.FLOAT;   // the data is 32bit floats
-        let normalize = false; // don't normalize the data
-        let stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
-        let offset = 0;        // start at the beginning of the buffer
-        gl.vertexAttribPointer(this.positionAttributeLocation, size, type, normalize, stride, offset)
+        gl.vertexAttribPointer(this.circlePositionAttribLocation, 2, gl.FLOAT, false, 0, 0)
+
         
+
+
+        for(let dot of hexagonGrid.dots) {
+            this.drawDot(dot)
+        }
+    }
+    drawDot(dot) {
+        let range = 1
+        let rgb = this.hslToRgb((dot.height*range+range)/2, 1, 0.5)
+        //console.log((dot.height*range+range)/2, rgb)
+        gl.uniform4f(this.circleColorUniformLocation, rgb[0], rgb[1], rgb[2], 1);
+
+        let positions = this.calculatePositionsCirlce(dot.vec.x, dot.vec.y, 5)
+
+
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+
         let primitiveType = gl.TRIANGLES;
-        let count = 3;
-        gl.drawArrays(primitiveType, offset, count);
+        let size = positions.length/2;
+        gl.drawArrays(primitiveType, 0, size);
     }
     createShader(gl, type, source) {
         const shader = gl.createShader(type);
@@ -105,5 +112,29 @@ class Renderer {
        
         console.log(gl.getProgramInfoLog(program));
         gl.deleteProgram(program);
+    }
+    hslToRgb(h, s, l){
+        var r, g, b;
+    
+        if(s == 0){
+            r = g = b = l; // achromatic
+        }else{
+            var hue2rgb = function hue2rgb(p, q, t){
+                if(t < 0) t += 1;
+                if(t > 1) t -= 1;
+                if(t < 1/6) return p + (q - p) * 6 * t;
+                if(t < 1/2) return q;
+                if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                return p;
+            }
+    
+            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            var p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1/3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1/3);
+        }
+    
+        return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
     }
 }

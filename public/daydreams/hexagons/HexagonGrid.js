@@ -8,7 +8,8 @@ class HexagonGrid {
         )
 
         this.time = 0
-        this.simplex = openSimplexNoise(Date.now())
+        // this.simplex = openSimplexNoise(Date.now())
+        this.simplex = new SimplexNoise()
         this.zoom = 50
         this.dots = []
         this.lines = []
@@ -16,7 +17,7 @@ class HexagonGrid {
         
     }
     draw() {
-        this.time += 0.005
+        this.time += 0.0025
         ctx.fillStyle = 'red'
         ctx.strokeStyle = 'lime'
         ctx.lineWidth = 3
