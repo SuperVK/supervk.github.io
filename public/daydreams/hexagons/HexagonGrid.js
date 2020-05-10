@@ -10,22 +10,24 @@ class HexagonGrid {
         this.time = 0
         // this.simplex = openSimplexNoise(Date.now())
         this.simplex = new SimplexNoise()
-        this.zoom = 50
+        this.zoom = 500
         this.dots = []
         this.lines = []
         this.generateGrid()
         
     }
-    draw() {
+    recalculateHeights() {
         this.time += 0.0025
+        for(let dot of this.dots) {
+            dot.setHeight(this.simplex.noise3D(dot.vec.x/this.zoom, dot.vec.y/this.zoom, this.time))
+        }
+    }
+    draw() {
         ctx.fillStyle = 'red'
         ctx.strokeStyle = 'lime'
         ctx.lineWidth = 3
     
 
-        for(let dot of this.dots) {
-            dot.setHeight(this.simplex.noise3D(dot.vec.x/this.zoom, dot.vec.y/this.zoom, this.time))
-        }
         for(let line of this.lines) {
             ctx.beginPath()
             // let gradient = ctx.createLinearGradient(line.dot0.vec.x, line.dot0.vec.y, line.dot1.vec.x, line.dot1.vec.y)

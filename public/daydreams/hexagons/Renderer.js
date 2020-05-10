@@ -2,17 +2,24 @@ class Renderer {
     constructor() {
         this.createCircleProgram()
     }
+    createLineProgram() {
+        const lineVertexShader = this.createShader(gl, gl.VERTEX_SHADER, lineVertexShaderSource)
+        const lineFragmentShader = this.createShader(gl, gl.VERTEX_SHADER, lineFragmentShaderSource)
+
+        this.lineProgram = this.createProgram(gl, lineVertexShader, lineFragmentShader)
+
+        this.linePositionAttribLocation = gl.getAttribLocation(this.lineProgram, "a_position")
+        this.lineColorAttribLocation = gl.getAttribLocation(this.lineProgram, "a_color")
+
+        this.lineResolutionUniformLocation = gl.getUniformLocation(this.lineProgram, "u_resolution");
+
+        gl.useProgram(this.circleProgram)
+        gl.uniform2f(this.circleResolutionUniformLocation, gl.canvas.width, gl.canvas.height)
+
+        this.linePositionBuffer = gl.createBuffer()
+        this.lineColorBuffer = gl.createBuffer()
+    }
     createCircleProgram() {
-        let circlePositions = []
-
-        for(let i = 0; i < 50; i += 0.01) {
-            circlePositions.push([
-                Math.cos(Math.PI*i), Math.sin(Math.PI*i),
-                Math.cos(Math.PI*(i+0.01)), Math.sin(Math.PI*(i+0.01)),
-                0, 0
-            ])
-        }
-
 
         const cirlceVertexShader = this.createShader(gl, gl.VERTEX_SHADER, circleVertexShaderSource);
         const circleFragmentShader = this.createShader(gl, gl.FRAGMENT_SHADER, circleFragmentShaderSource);
@@ -23,6 +30,7 @@ class Renderer {
 
         this.circleResolutionUniformLocation = gl.getUniformLocation(this.circleProgram, "u_resolution");
         this.circleColorUniformLocation = gl.getUniformLocation(this.circleProgram, "u_color");
+        this.circleTranslationUniformLocation = gl.getUniformLocation(this.circleProgram, "u_translation");
 
 
         gl.useProgram(this.circleProgram)
@@ -32,6 +40,12 @@ class Renderer {
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.circlePositionBuffer);
 
+        gl.enableVertexAttribArray(this.circlePositionAttribLocation);
+        gl.vertexAttribPointer(this.circlePositionAttribLocation, 2, gl.FLOAT, false, 0, 0)
+
+        this.circlePositions = this.calculatePositionsCirlce(0, 0, 5)
+
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.circlePositions), gl.STATIC_DRAW);
     }
     calculatePositionsCirlce(x, y, size) {
         let circlePositions = []
@@ -46,8 +60,12 @@ class Renderer {
 
         return circlePositions
     }
-    createLineProgram() {
+    getLinePositionsAndColors() {
+        let colors = []
+        let positions = []
 
+        for(let line of hexagonGrid.lines) {
+        }
     }
     draw() {
         //gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -56,15 +74,22 @@ class Renderer {
         gl.clearColor(0, 0, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
-        gl.useProgram(this.circleProgram)
-
-        gl.enableVertexAttribArray(this.circlePositionAttribLocation);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.circlePositionBuffer)
+        
+        // gl.useProgram(this.lineProgram)
 
         
-        gl.vertexAttribPointer(this.circlePositionAttribLocation, 2, gl.FLOAT, false, 0, 0)
+        // gl.bindBuffer(gl.ARRAY_BUFFER, this.linePositionBuffer)
+        // gl.enableVertexAttribArray(this.linePositionAttribLocation)
+        // gl.vertexAttribPointer(this.linePositionAttribLocation, 2, gl.FLOAT, false, 0, 0)
 
+
+
+        // gl.bindBuffer(gl.ARRAY_BUFFER, this.lineColorBuffer)
+        // gl.enableVertexAttribArray(this.lineColorAttribLocation)
+        // gl.vertexAttribPointer(this.lineColorAttribLocation, 4, gl.FLOAT, false, 0, 0)
+
+
+        
         
 
 
@@ -75,17 +100,19 @@ class Renderer {
     drawDot(dot) {
         let range = 1
         let rgb = this.hslToRgb((dot.height*range+range)/2, 1, 0.5)
-        //console.log((dot.height*range+range)/2, rgb)
-        gl.uniform4f(this.circleColorUniformLocation, rgb[0], rgb[1], rgb[2], 1);
+       // console.log((dot.height*range+range)/2/360, rgb)
 
-        let positions = this.calculatePositionsCirlce(dot.vec.x, dot.vec.y, 5)
+        // let positions = this.calculatePositionsCirlce(dot.vec.x, dot.vec.y, 5)
 
 
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        gl.uniform4f(this.circleColorUniformLocation, rgb[0]/255, rgb[1]/255, rgb[2]/255, 1);
 
+        //console.log(dot.vec.x, dot.vec.y)
+
+        gl.uniform2f(this.circleTranslationUniformLocation, dot.vec.x, dot.vec.y);
 
         let primitiveType = gl.TRIANGLES;
-        let size = positions.length/2;
+        let size = this.circlePositions.length/2;
         gl.drawArrays(primitiveType, 0, size);
     }
     createShader(gl, type, source) {

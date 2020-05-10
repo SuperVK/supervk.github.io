@@ -2,7 +2,7 @@ class HexagonDot {
     constructor(vec, height) {
         this.vec = vec
         this.height = height
-        this.color = this.getPerlinColor(height)
+        //this.color = this.getPerlinColor(height)
 
     }
     getPerlinColor(value) {
@@ -11,6 +11,6 @@ class HexagonDot {
     }
     setHeight(height) {
         this.height = height
-        this.color = this.getPerlinColor(height)
+       // this.color = this.getPerlinColor(height)
     }
 }
