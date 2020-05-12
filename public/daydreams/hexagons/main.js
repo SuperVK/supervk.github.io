@@ -1,7 +1,7 @@
 const canvas = document.getElementById('2dCanvas')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
-// const ctx = canvas.getContext('2d')
+//const ctx = canvas.getContext('2d')
 // ctx.miterLimit = -1
 
 const gl = canvas.getContext('webgl')
@@ -20,7 +20,7 @@ loadShaders()
     })
 
 
-const hexagonGrid = new HexagonGrid(51)
+const hexagonGrid = new HexagonGrid(50)
 
 let lastTime = 0
 
@@ -28,7 +28,7 @@ let totalTime = 0
 let totalTimes = 0
 
 function webglFrame(time) {
-    //console.log(time-lastTime)
+    //console.log(1000/(time-lastTime))
     totalTime+= time-lastTime
     totalTimes++
     //console.log(totalTime/totalTimes)
@@ -37,7 +37,6 @@ function webglFrame(time) {
     renderer.draw()
     requestAnimationFrame(webglFrame)
 }
-
 
 
 function context2dFrame(time) {
@@ -53,6 +52,7 @@ function context2dFrame(time) {
     requestAnimationFrame(context2dFrame)
 }
 
+//requestAnimationFrame(context2dFrame)
 
 function loadShaders() {
     return new Promise((resolve, reject) => {

@@ -17,7 +17,7 @@ class HexagonGrid {
         
     }
     recalculateHeights() {
-        this.time += 0.0025
+        this.time += 0.003
         for(let dot of this.dots) {
             dot.setHeight(this.simplex.noise3D(dot.vec.x/this.zoom, dot.vec.y/this.zoom, this.time))
         }
@@ -59,7 +59,7 @@ class HexagonGrid {
                         this.simplex.noise3D(locations[locations.length-1].x/this.zoom, locations[locations.length-1].y/this.zoom, this.time)
                     ))
                 }
-                for(let i = 0; i < 6; i++) {
+                for(let i = 0; i < 5; i++) {
                     // Add the next dot in the hexagon
                     locations.push(new Vec2(
                         locations[locations.length-1].x+Math.cos(currentRot)*(this.hexagonLineLength),
@@ -94,6 +94,7 @@ class HexagonGrid {
                     (l.dot0.vec.matches(locations[locations.length-1]) && l.dot1.vec.matches(locations[0])) ||
                     (l.dot0.vec.matches(locations[0]) && l.dot1.vec.matches(locations[locations.length-1])) 
                 ) == -1) {
+                    if(locations[0].matches(locations[locations.length-1])) console.log(locations[0], locations[locations.length-1])
                     this.lines.push(new HexagonLine(
                         this.dots.find(d => d.vec.matches(locations[0])),
                         this.dots.find(d => d.vec.matches(locations[locations.length-1])),

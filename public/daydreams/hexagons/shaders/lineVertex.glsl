@@ -7,8 +7,8 @@ varying vec4 v_color;
 
 void main() {
 
-   vec2 position = a_position
-   // convert the rectangle from pixels to 0.0 to 1.0
+   vec2 position = a_position;
+   // convert the rectangle fro;m pixels to 0.0 to 1.0
    vec2 zeroToOne = position / u_resolution;
 
    // convert from 0->1 to 0->2

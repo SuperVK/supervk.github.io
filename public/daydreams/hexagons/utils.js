@@ -9,4 +9,7 @@ class Vec2 {
     add(vec) {
         return new Vec2(vec.x+this.x, vec.y+this.y)
     }
+    mult(number) {
+        return new Vec2(this.x*number, this.y*number)
+    }
 }

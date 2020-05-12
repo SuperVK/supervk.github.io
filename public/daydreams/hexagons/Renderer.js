@@ -1,10 +1,11 @@
 class Renderer {
     constructor() {
         this.createCircleProgram()
+        this.createLineProgram()
     }
     createLineProgram() {
         const lineVertexShader = this.createShader(gl, gl.VERTEX_SHADER, lineVertexShaderSource)
-        const lineFragmentShader = this.createShader(gl, gl.VERTEX_SHADER, lineFragmentShaderSource)
+        const lineFragmentShader = this.createShader(gl, gl.FRAGMENT_SHADER, lineFragmentShaderSource)
 
         this.lineProgram = this.createProgram(gl, lineVertexShader, lineFragmentShader)
 
@@ -13,11 +14,19 @@ class Renderer {
 
         this.lineResolutionUniformLocation = gl.getUniformLocation(this.lineProgram, "u_resolution");
 
-        gl.useProgram(this.circleProgram)
-        gl.uniform2f(this.circleResolutionUniformLocation, gl.canvas.width, gl.canvas.height)
+        gl.useProgram(this.lineProgram)
+        gl.uniform2f(this.lineResolutionUniformLocation, gl.canvas.width, gl.canvas.height)
 
         this.linePositionBuffer = gl.createBuffer()
         this.lineColorBuffer = gl.createBuffer()
+
+        let positions = this.getLinePositions()
+        //console.log(positions)
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.linePositionBuffer)
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+
+
     }
     createCircleProgram() {
 
@@ -44,7 +53,6 @@ class Renderer {
         gl.vertexAttribPointer(this.circlePositionAttribLocation, 2, gl.FLOAT, false, 0, 0)
 
         this.circlePositions = this.calculatePositionsCirlce(0, 0, 5)
-
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.circlePositions), gl.STATIC_DRAW);
     }
     calculatePositionsCirlce(x, y, size) {
@@ -60,12 +68,59 @@ class Renderer {
 
         return circlePositions
     }
-    getLinePositionsAndColors() {
+    getLineColors() {
         let colors = []
+
+        for(let line of hexagonGrid.lines) {
+            let color0 = this.getColor(line.dot0.height)
+            let color1 = this.getColor(line.dot1.height)
+
+            colors.push(
+                color0[0], color0[1], color0[2], color0[3],
+                color0[0], color0[1], color0[2], color0[3],
+                color1[0], color1[1], color1[2], color1[3], 
+                
+                
+                color1[0], color1[1], color1[2], color1[3], 
+                color1[0], color1[1], color1[2], color1[3],
+                color0[0], color0[1], color0[2], color0[3]
+            )
+
+        }
+        return colors
+    }
+    getLinePositions() {
         let positions = []
 
         for(let line of hexagonGrid.lines) {
+            let rot = this.getLineSlope(line.dot0.vec, line.dot1.vec)
+            let [vec0, vec1] = this.getExtrudedPoints(line.dot0.vec, rot, 1.5)
+            let [vec2, vec3] = this.getExtrudedPoints(line.dot1.vec, rot, 1.5)
+
+            positions.push(
+                vec0.x, vec0.y, 
+                vec1.x, vec1.y, 
+                vec2.x, vec2.y, 
+
+                vec3.x, vec3.y, 
+                vec2.x, vec2.y, 
+                vec1.x, vec1.y)
         }
+
+        return positions
+    }
+    getLineSlope(vec0, vec1) {
+        return Math.atan((vec1.y-vec0.y)/(vec1.x-vec0.x))
+    }
+    getExtrudedPoints(vec, rot, length) {
+        let newRot = rot + Math.PI/2
+
+        let offset = new Vec2(
+            Math.cos(newRot)*length,
+            Math.sin(newRot)*length
+        )
+
+        return [vec.add(offset), vec.add(offset.mult(-1))]
     }
     draw() {
         //gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -74,40 +129,50 @@ class Renderer {
         gl.clearColor(0, 0, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
+        this.drawLines()
+
+        this.drawDots()
         
-        // gl.useProgram(this.lineProgram)
+    }
+    drawDots() {
+        // DOTS
+        gl.useProgram(this.circleProgram)
 
-        
-        // gl.bindBuffer(gl.ARRAY_BUFFER, this.linePositionBuffer)
-        // gl.enableVertexAttribArray(this.linePositionAttribLocation)
-        // gl.vertexAttribPointer(this.linePositionAttribLocation, 2, gl.FLOAT, false, 0, 0)
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.circlePositionBuffer);
 
-
-
-        // gl.bindBuffer(gl.ARRAY_BUFFER, this.lineColorBuffer)
-        // gl.enableVertexAttribArray(this.lineColorAttribLocation)
-        // gl.vertexAttribPointer(this.lineColorAttribLocation, 4, gl.FLOAT, false, 0, 0)
-
-
-        
-        
-
+        gl.enableVertexAttribArray(this.circlePositionAttribLocation);
+        gl.vertexAttribPointer(this.circlePositionAttribLocation, 2, gl.FLOAT, false, 0, 0)
 
         for(let dot of hexagonGrid.dots) {
             this.drawDot(dot)
         }
     }
+    drawLines() {
+        gl.useProgram(this.lineProgram)
+
+        
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.linePositionBuffer)
+        gl.enableVertexAttribArray(this.linePositionAttribLocation)
+        gl.vertexAttribPointer(this.linePositionAttribLocation, 2, gl.FLOAT, false, 0, 0)
+       
+        let colors = this.getLineColors()
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.lineColorBuffer)
+        gl.enableVertexAttribArray(this.lineColorAttribLocation)
+        gl.vertexAttribPointer(this.lineColorAttribLocation, 4, gl.FLOAT, false, 0, 0)
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+
+        let primitiveType = gl.TRIANGLES;
+        let size = colors.length/4;
+        gl.drawArrays(primitiveType, 0, size);
+
+
+    }
     drawDot(dot) {
-        let range = 1
-        let rgb = this.hslToRgb((dot.height*range+range)/2, 1, 0.5)
+        let rgb = this.getColor(dot.height)
        // console.log((dot.height*range+range)/2/360, rgb)
 
-        // let positions = this.calculatePositionsCirlce(dot.vec.x, dot.vec.y, 5)
-
-
-        gl.uniform4f(this.circleColorUniformLocation, rgb[0]/255, rgb[1]/255, rgb[2]/255, 1);
-
-        //console.log(dot.vec.x, dot.vec.y)
+        gl.uniform4f(this.circleColorUniformLocation, rgb[0], rgb[1], rgb[2], rgb[3]);
 
         gl.uniform2f(this.circleTranslationUniformLocation, dot.vec.x, dot.vec.y);
 
@@ -140,6 +205,12 @@ class Renderer {
         console.log(gl.getProgramInfoLog(program));
         gl.deleteProgram(program);
     }
+    getColor(height) {
+        let offset = 0.7
+        let range = 0
+        let rgb = this.hslToRgb((height*range+range)/2+offset, 1, (height+1)/4)
+        return [rgb[0], rgb[1], rgb[2], 1]
+    }
     hslToRgb(h, s, l){
         var r, g, b;
     
@@ -162,6 +233,6 @@ class Renderer {
             b = hue2rgb(p, q, h - 1/3);
         }
     
-        return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        return [r, g, b];
     }
 }
