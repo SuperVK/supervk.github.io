@@ -1,3 +1,11 @@
+const CONFIG = {
+    depth: false,
+    color_range: 0.5,
+    color_offset: 0.2,
+    speed: 0.003
+}
+
+
 const canvas = document.getElementById('2dCanvas')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -5,19 +13,6 @@ canvas.height = window.innerHeight
 // ctx.miterLimit = -1
 
 const gl = canvas.getContext('webgl')
-
-let cirlceVertexShaderSource
-let circleFragmentShaderSource
-let lineVertexShaderSource
-let lineFragmentShaderSource
-
-let renderer 
-loadShaders()
-    .then(() =>{
-        renderer = new Renderer()
-
-        requestAnimationFrame(webglFrame)
-    })
 
 
 const hexagonGrid = new HexagonGrid(50)
@@ -52,24 +47,19 @@ function context2dFrame(time) {
     requestAnimationFrame(context2dFrame)
 }
 
-//requestAnimationFrame(context2dFrame)
+let circleFragmentShaderSource = document.getElementById('circleFragment').innerText
+let circleVertexShaderSource = document.getElementById('circleVertex').innerText
+let lineFragmentShaderSource = document.getElementById('lineFragment').innerText
+let lineVertexShaderSource = document.getElementById('lineVertex').innerText
 
-function loadShaders() {
-    return new Promise((resolve, reject) => {
-        Promise.all([
-            fetch('./shaders/circleFragment.glsl').then(res => res.text()),
-            fetch('./shaders/circleVertex.glsl').then(res => res.text()),
-            fetch('./shaders/lineFragment.glsl').then(res => res.text()),
-            fetch('./shaders/lineVertex.glsl').then(res => res.text())
-        ])
-            .then((values) => {
-                circleFragmentShaderSource = values[0]
-                circleVertexShaderSource = values[1]
-                lineFragmentShaderSource = values[2]
-                lineVertexShaderSource = values[3]
-                resolve()
-            })
-        
+let renderer = new Renderer()
 
-    })
-}
+requestAnimationFrame(webglFrame)
+
+
+
+window.wallpaperPropertyListener = {
+    applyGeneralProperties: function(properties) {
+        Object.assign(CONFIG, properties)
+    }
+};

@@ -16,6 +16,72 @@
             overflow: hidden;
         }
     </style>
+
+    <script type="notjs" id="circleFragment">
+        precision mediump float;
+
+        uniform vec4 u_color;
+
+        void main() {
+            gl_FragColor = u_color;
+        }
+    </script>
+    <script type="notjs" id="circleVertex">
+        attribute vec2 a_position;
+
+        uniform vec2 u_resolution;
+        uniform vec2 u_translation;
+        
+        void main() {
+        
+           vec2 position = a_position+u_translation;
+           // convert the rectangle from pixels to 0.0 to 1.0
+           vec2 zeroToOne = position / u_resolution;
+        
+           // convert from 0->1 to 0->2
+           vec2 zeroToTwo = zeroToOne * 2.0;
+        
+           // convert from 0->2 to -1->+1 (clipspace)
+           vec2 clipSpace = zeroToTwo - 1.0;
+        
+           gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+        }
+    </script>
+    <script type="notjs" id="lineFragment">
+        precision mediump float;
+
+        varying vec4 v_color;
+
+        void main() {
+        vec4 color = v_color;
+        gl_FragColor = color;
+        }
+    </script>
+    <script type="notjs" id="lineVertex">
+        attribute vec2 a_position;
+        attribute vec4 a_color;
+
+        uniform vec2 u_resolution;
+
+        varying vec4 v_color;
+
+        void main() {
+
+            vec2 position = a_position;
+            // convert the rectangle fro;m pixels to 0.0 to 1.0
+            vec2 zeroToOne = position / u_resolution;
+
+            // convert from 0->1 to 0->2
+            vec2 zeroToTwo = zeroToOne * 2.0;
+
+            // convert from 0->2 to -1->+1 (clipspace)
+            vec2 clipSpace = zeroToTwo - 1.0;
+
+            gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+
+            v_color = a_color;
+        }
+    </script>
 </head>
 <body>
     <canvas id="2dCanvas"></canvas>

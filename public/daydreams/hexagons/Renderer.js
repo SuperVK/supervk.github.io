@@ -206,9 +206,9 @@ class Renderer {
         gl.deleteProgram(program);
     }
     getColor(height) {
-        let offset = 0.7
-        let range = 0
-        let rgb = this.hslToRgb((height*range+range)/2+offset, 1, (height+1)/4)
+        let offset = CONFIG.colorOffset
+        let range = CONFIG.colorRange
+        let rgb = this.hslToRgb((height*range+range)/2+offset, 1, 0.5)
         return [rgb[0], rgb[1], rgb[2], 1]
     }
     hslToRgb(h, s, l){

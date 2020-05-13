@@ -17,7 +17,7 @@ class HexagonGrid {
         
     }
     recalculateHeights() {
-        this.time += 0.003
+        this.time += CONFIG.speed
         for(let dot of this.dots) {
             dot.setHeight(this.simplex.noise3D(dot.vec.x/this.zoom, dot.vec.y/this.zoom, this.time))
         }
