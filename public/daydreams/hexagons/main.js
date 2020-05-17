@@ -1,8 +1,9 @@
 const CONFIG = {
     depth: false,
-    color_range: 0.5,
-    color_offset: 0.2,
-    speed: 0.003
+    colorRange: 1,
+    colorOffset: 0,
+    speed: 0.003,
+    size: 2
 }
 
 
@@ -12,10 +13,12 @@ canvas.height = window.innerHeight
 //const ctx = canvas.getContext('2d')
 // ctx.miterLimit = -1
 
-const gl = canvas.getContext('webgl')
+const gl = canvas.getContext('webgl', {
+    antialias: false
+})
 
 
-const hexagonGrid = new HexagonGrid(50)
+const hexagonGrid = new HexagonGrid(100)
 
 let lastTime = 0
 
@@ -60,6 +63,16 @@ requestAnimationFrame(webglFrame)
 
 window.wallpaperPropertyListener = {
     applyGeneralProperties: function(properties) {
-        Object.assign(CONFIG, properties)
+        if(properties.color_range) CONFIG.colorRange = properties.color_range.value
+        if(properties.color_offset) CONFIG.colorOffset = properties.color_offset.value
+        if(properties.speed) CONFIG.speed = properties.speed.value
+        if(properties.depth) CONFIG.depth = properties.depth.value
+        if(properties.size) CONFIG.size = properties.size.value
+
+
+        if(properties.line_length) {
+            hexagonGrid = new HexagonGrid(properties.line_length.value)
+        }
+        
     }
 };

@@ -52,7 +52,7 @@ class Renderer {
         gl.enableVertexAttribArray(this.circlePositionAttribLocation);
         gl.vertexAttribPointer(this.circlePositionAttribLocation, 2, gl.FLOAT, false, 0, 0)
 
-        this.circlePositions = this.calculatePositionsCirlce(0, 0, 5)
+        this.circlePositions = this.calculatePositionsCirlce(0, 0, 5*CONFIG.size)
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.circlePositions), gl.STATIC_DRAW);
     }
     calculatePositionsCirlce(x, y, size) {
@@ -94,8 +94,8 @@ class Renderer {
 
         for(let line of hexagonGrid.lines) {
             let rot = this.getLineSlope(line.dot0.vec, line.dot1.vec)
-            let [vec0, vec1] = this.getExtrudedPoints(line.dot0.vec, rot, 1.5)
-            let [vec2, vec3] = this.getExtrudedPoints(line.dot1.vec, rot, 1.5)
+            let [vec0, vec1] = this.getExtrudedPoints(line.dot0.vec, rot, 1.5*CONFIG.size)
+            let [vec2, vec3] = this.getExtrudedPoints(line.dot1.vec, rot, 1.5*CONFIG.size)
 
             positions.push(
                 vec0.x, vec0.y, 
@@ -189,7 +189,7 @@ class Renderer {
           return shader;
         }
        
-        console.log(gl.getShaderInfoLog(shader));
+        console.log(gl.getShaderInfoLog(shader), source);
         gl.deleteShader(shader);
     }
     createProgram(gl, vertexShader, fragmentShader) {

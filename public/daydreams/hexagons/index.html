@@ -23,10 +23,17 @@
         uniform vec4 u_color;
 
         void main() {
-            gl_FragColor = u_color;
+            vec4 color = u_color;
+
+            /*float modx = mod(floor(gl_FragCoord.x), 3.0);
+            if (modx == 0.0) color = vec4(u_color.r, 0, 0, 1);
+            if (modx == 1.0) color = vec4(0, u_color.g, 0, 1);
+            if (modx == 2.0) color = vec4(0, 0, u_color.b, 1);*/
+
+            gl_FragColor = color;
         }
     </script>
-    <script type="notjs" id="circleVertex">
+    <script type="x-shader/x-vertex" id="circleVertex">
         attribute vec2 a_position;
 
         uniform vec2 u_resolution;
@@ -53,11 +60,18 @@
         varying vec4 v_color;
 
         void main() {
-        vec4 color = v_color;
-        gl_FragColor = color;
+            
+            vec4 color = v_color;
+            /*float modx = mod(floor(gl_FragCoord.x), 3.0);
+            if (modx == 0.0) color = vec4(v_color.r, 0, 0, 1);
+            if (modx == 1.0) color = vec4(0, v_color.g, 0, 1);
+            if (modx == 2.0) color = vec4(0, 0, v_color.b, 1);*/
+            
+
+            gl_FragColor = color;
         }
     </script>
-    <script type="notjs" id="lineVertex">
+    <script type="x-shader/x-vertex" id="lineVertex">
         attribute vec2 a_position;
         attribute vec4 a_color;
 
